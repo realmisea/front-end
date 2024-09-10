@@ -1,8 +1,10 @@
+import {MainPage} from "./pages/main";
+
 function App() {
 
   return (
     <>
-      안녕
+      <MainPage />
     </>
   )
 }
