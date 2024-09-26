@@ -1,4 +1,15 @@
-body {
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    vertical-align: bottom; /* 인라인 이미지 아래 여백 제거 */
+}
+
+body, html {
+    height: 100%;
 }
