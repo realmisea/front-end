@@ -9,13 +9,15 @@ export const MainPage = () => {
             <Title>Wayther</Title>
             <InputContainer>
                 <InputWrapper>
-                    <Input defaultValue="출발지: " />
+                    <LabelText>출발지: </LabelText>
+                    <Input />
                     <SearchButton>
                         <img src={SearchIcon} alt="검색" />
                     </SearchButton>
                 </InputWrapper>
                 <InputWrapper>
-                    <Input defaultValue="도착지: " />
+                    <LabelText>도착지: </LabelText>
+                    <Input />
                     <SearchButton>
                         <img src={SearchIcon} alt="검색" />
                     </SearchButton>
@@ -45,40 +47,46 @@ const Title = styled.h1`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  //background: greenyellow;
   margin-top: 52px;
   gap: 40px;
 `
 
 const InputWrapper = styled.div`
-  position: relative;
+  display: flex;
+  align-items: center;
   width: 640px;
   height: 88px;
-  //background: cornflowerblue;
+  border: 3px solid #c2c2c2;
+  border-radius: 50px;
+  background: cornflowerblue;
+  
+`
+
+const LabelText = styled.span`
+  font-size: 24px;
+  padding: 0 15px 0 68px;
 `
 
 const Input = styled.input`
-  width: 100%;
+  flex-grow: 1;
   height: 100%;
-  //background: white;
-  border: 3px solid #c2c2c2;
-  border-radius: 50px;
+  background: transparent;
+  border: none;
   font-size: 24px;
+  &:focus {
+    outline: none;
+  }
 `
 
 const SearchButton = styled.button`
-  position: absolute;
-  top: 19px;
-  right: 21px;
   background: none;
   border: none;
   cursor: pointer;
-  padding-left: 68px; // 왼쪽에 이만큼 띄워야함 
+  margin: 0 19px 0 30px;
 `;
 
 
 const CloudImg = styled.img`
   margin-bottom: -190px; // 여기 마진이 왜생기지?
-  //background: greenyellow;
   
 `
