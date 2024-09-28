@@ -31,7 +31,7 @@ export const MainPage = () => {
 const MainContainer = styled.div`
   width: 1280px;
   height: 832px;
-  background: #FFEC8A;
+  background: ${({theme}) => theme.colors.yellow};
   display: flex;
   flex-direction: column; 
   justify-content: center;
@@ -40,7 +40,7 @@ const MainContainer = styled.div`
 
 const Title = styled.h1`
   font-size: 96px;
-  color: #fffcfc;
+  color: ${({theme}) => theme.colors.white};
   margin: 0;
 `
 
@@ -56,9 +56,9 @@ const InputWrapper = styled.div`
   align-items: center;
   width: 640px;
   height: 88px;
-  border: 3px solid #c2c2c2;
+  border: 3px solid ${({theme}) => theme.colors.gray};
   border-radius: 50px;
-  background: cornflowerblue;
+  background: white;
   
 `
 
