@@ -41,6 +41,8 @@ const MainContainer = styled.div`
 const Title = styled.h1`
   font-size: 96px;
   color: ${({theme}) => theme.colors.white};
+  font-family: "Noto Serif", serif;
+  letter-spacing : -5px;
   margin: 0;
 `
 
