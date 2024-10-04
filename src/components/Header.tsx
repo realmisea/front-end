@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import HomeIcon from '@assets/images/home.svg';
 
 export const Header = () => {
 
     return (
         <HeaderContainer>
             <HeaderTitle>Wayther</HeaderTitle>
-            <Button>홈으로</Button>
+            <Button src={HomeIcon} />
         </HeaderContainer>
     )
 }
@@ -27,8 +28,9 @@ const HeaderTitle = styled.h1`
   letter-spacing : -5px;
 `
 
-const Button = styled.button`
+const Button = styled.img`
   position: absolute; // 자식
   right: 20px;
+  top: 20px;
   cursor: pointer;
 `
