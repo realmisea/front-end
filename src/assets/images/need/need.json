@@ -1,19 +1,25 @@
 {
-  "items": [
+  "states": [
     {
       "state": "rainy",
-      "image": "@assets/images/need/umbrella.svg",
-      "message": "우천 예보가 있으니 우산을 챙기면 더욱 쾌적한 여행이 되실 거예요!"
+      "items": {
+        "image": "@assets/images/need/umbrella.svg",
+        "message": "우천 예보가 있으니 우산을 챙기면 더욱 쾌적한 여행이 되실 거예요!"
+      }
     },
     {
       "state": "sunny",
-      "image": "@assets/images/need/sun-cream.svg",
-      "message": "기온이 높은 날입니다. 썬크림을 챙기세요!"
+      "items": {
+        "image": "@assets/images/need/sun-cream.svg",
+        "message": "기온이 높은 날입니다. 썬크림을 챙기세요!"
+      }
     },
     {
       "state": "dust",
-      "image": "@assets/images/need/mask.png",
-      "message": "대기질이 좋지 않아요. 마스크를 챙기세요!"
+      "items": {
+        "image": "@assets/images/need/mask.png",
+        "message": "대기질이 좋지 않아요. 마스크를 챙기세요!"
+      }
     }
   ]
 }
