@@ -2,7 +2,7 @@
   "states": {
     "rainy": {
       "image": "/src/assets/images/need/umbrella.svg",
-      "message": "우천 예보가 있으니 우산을 챙기면 더욱 쾌적한 여행이 되실 거예요!"
+      "message": ["우천 예보가 있으니 우산을 챙기면", "더욱 쾌적한 여행이 되실 거예요!"]
     },
     "sunny": {
       "image": "/src/assets/images/need/sun-cream.svg",

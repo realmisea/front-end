@@ -1,15 +1,36 @@
 import styled from "styled-components";
 import Close from '@assets/images/close-button.svg';
+import NeedData from '@assets/images/need/need.json';
+import {useState} from "react";
+import {NeedDataType} from "../types/types.ts";
 
 export const SuggestionModal = () => {
+    const [currentState, setCurrentState] = useState('rainy');
+    // const needData = needDataJson as NeedData
+    const state = (NeedData as NeedDataType).states[currentState];
+
     return (
         <ModalContainer>
             <ModalHeaderContainer>
                 <HeaderTitle>Wayther의 제안</HeaderTitle>
                 <CloseBtn src={Close} />
             </ModalHeaderContainer>
+            <ModalBodyContainer>
+                <SuggestionContainer>
+                    <img src={state.image} />
+                    <SuggestMessage>
+                        {Array.isArray(state.message) ? (
+                            state.message.map((line, index) => (
+                                <span key={index}>{line} <br /></span>
+                            ))
+                        ) : (
+                            <span>{state.message}</span>
+                        )}
+                    </SuggestMessage>
+                </SuggestionContainer>
+            </ModalBodyContainer>
         </ModalContainer>
-    );
+    )
 };
 
 const ModalContainer = styled.div`
@@ -43,4 +64,21 @@ const CloseBtn = styled.img`
   cursor: pointer;
   top: 3px;
   right: 3px;
+`
+
+const ModalBodyContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: lightskyblue;
+  width: 100%;
+  height: 258px;
+`
+
+const SuggestionContainer = styled.div`
+  display: flex;
+`
+
+const SuggestMessage = styled.p`
+  font-size: 30px;
 `
