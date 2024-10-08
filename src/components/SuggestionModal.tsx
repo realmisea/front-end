@@ -17,7 +17,19 @@ export const SuggestionModal = () => {
             </ModalHeaderContainer>
             <ModalBodyContainer>
                 <SuggestionContainer>
-                    <img src={state.image} />
+                    <SuggestImg src={state.image} />
+                    <SuggestMessage>
+                        {Array.isArray(state.message) ? (
+                            state.message.map((line, index) => (
+                                <span key={index}>{line} <br /></span>
+                            ))
+                        ) : (
+                            <span>{state.message}</span>
+                        )}
+                    </SuggestMessage>
+                </SuggestionContainer>
+                <SuggestionContainer>
+                    <SuggestImg src={state.image} />
                     <SuggestMessage>
                         {Array.isArray(state.message) ? (
                             state.message.map((line, index) => (
@@ -68,6 +80,8 @@ const CloseBtn = styled.img`
 
 const ModalBodyContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   background: lightskyblue;
@@ -77,6 +91,13 @@ const ModalBodyContainer = styled.div`
 
 const SuggestionContainer = styled.div`
   display: flex;
+  align-items: center;
+  gap: 20px;
+  background: lightsalmon;
+`
+
+const SuggestImg = styled.img`
+  height: 50px;
 `
 
 const SuggestMessage = styled.p`
