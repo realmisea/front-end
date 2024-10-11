@@ -45,7 +45,7 @@ export const SuggestionModal = () => {
     )
 };
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   width: 694px;
   height: 333px;
   background: white;
@@ -56,7 +56,7 @@ const ModalContainer = styled.div`
   align-items: center;
 `
 
-const ModalHeaderContainer = styled.div`
+export const ModalHeaderContainer = styled.div`
   width: 100%;
   height: 75px;
   background: ${({theme}) => theme.colors.yellow};
@@ -66,19 +66,19 @@ const ModalHeaderContainer = styled.div`
   position: relative;
 `
 
-const HeaderTitle = styled.h1`
+export const HeaderTitle = styled.h1`
   font-size: 40px;
   font-weight: 400;
 `
 
-const CloseBtn = styled.img`
+export const CloseBtn = styled.img`
   position: absolute;
   cursor: pointer;
   top: 3px;
   right: 3px;
 `
 
-const ModalBodyContainer = styled.div`
+export const ModalBodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
