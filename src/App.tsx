@@ -1,15 +1,22 @@
-import {MainPage} from "./pages/main";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { MainPage } from '@pages/main';
+import { SuggestionModal } from '@components/SuggestionModal.tsx';
+import { Header } from '@components/Header.tsx';
+import { DetailModal } from './components/DetailModal.tsx';
 
 function App() {
-
   return (
-    <BrowserRouter>
+    <>
+      <BrowserRouter>
         <Routes>
-            <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MainPage />} />
         </Routes>
-    </BrowserRouter>
-  )
+      </BrowserRouter>
+      <Header />
+      <SuggestionModal />
+      <DetailModal />
+    </>
+  );
 }
 
-export default App
+export default App;
