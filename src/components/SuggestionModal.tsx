@@ -15,7 +15,7 @@ export const SuggestionModal = ({ onClose }: ModalProps) => {
 
   return (
     <ModalBackground onClick={onClose}>
-      <ModalContainer>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
         <ModalHeaderContainer>
           <HeaderTitle>Wayther의 제안</HeaderTitle>
           <CloseBtn src={Close} onClick={onClose} />
