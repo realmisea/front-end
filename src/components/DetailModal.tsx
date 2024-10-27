@@ -13,7 +13,7 @@ import { HourWeather } from '@components/HourWeather.tsx';
 
 export const DetailModal = ({ onClose }: ModalProps) => {
   return (
-    <ModalBackground>
+    <ModalBackground onClick={onClose}>
       <ModalContainer>
         <ModalHeaderContainer>
           <HeaderTitle>오늘의 상세 날씨</HeaderTitle>

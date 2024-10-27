@@ -14,7 +14,7 @@ export const SuggestionModal = ({ onClose }: ModalProps) => {
   const state = (NeedData as NeedDataType).states[currentState];
 
   return (
-    <ModalBackground>
+    <ModalBackground onClick={onClose}>
       <ModalContainer>
         <ModalHeaderContainer>
           <HeaderTitle>Wayther의 제안</HeaderTitle>
@@ -65,6 +65,7 @@ export const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 `;
 
 export const ModalContainer = styled.div`
@@ -76,6 +77,7 @@ export const ModalContainer = styled.div`
   flex-direction: column;
   //justify-content: center;
   align-items: center;
+  z-index: 1000;
 `;
 
 export const ModalHeaderContainer = styled.div`
