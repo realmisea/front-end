@@ -4,50 +4,68 @@ import NeedData from '@assets/images/need/need.json';
 import { useState } from 'react';
 import { NeedDataType } from '../types/types.ts';
 
-export const SuggestionModal = () => {
+export interface ModalProps {
+  onClose: () => void;
+}
+
+export const SuggestionModal = ({ onClose }: ModalProps) => {
   const [currentState, setCurrentState] = useState('rainy');
   // const needData = needDataJson as NeedData
   const state = (NeedData as NeedDataType).states[currentState];
 
   return (
-    <ModalContainer>
-      <ModalHeaderContainer>
-        <HeaderTitle>Wayther의 제안</HeaderTitle>
-        <CloseBtn src={Close} />
-      </ModalHeaderContainer>
-      <ModalBodyContainer>
-        <SuggestionContainer>
-          <SuggestImg src={state.image} />
-          <SuggestMessage>
-            {Array.isArray(state.message) ? (
-              state.message.map((line, index) => (
-                <span key={index}>
-                  {line} <br />
-                </span>
-              ))
-            ) : (
-              <span>{state.message}</span>
-            )}
-          </SuggestMessage>
-        </SuggestionContainer>
-        <SuggestionContainer>
-          <SuggestImg src={state.image} />
-          <SuggestMessage>
-            {Array.isArray(state.message) ? (
-              state.message.map((line, index) => (
-                <span key={index}>
-                  {line} <br />
-                </span>
-              ))
-            ) : (
-              <span>{state.message}</span>
-            )}
-          </SuggestMessage>
-        </SuggestionContainer>
-      </ModalBodyContainer>
-    </ModalContainer>
+    <ModalBackground>
+      <ModalContainer>
+        <ModalHeaderContainer>
+          <HeaderTitle>Wayther의 제안</HeaderTitle>
+          <CloseBtn src={Close} onClick={onClose} />
+        </ModalHeaderContainer>
+        <ModalBodyContainer>
+          <SuggestionContainer>
+            <SuggestImg src={state.image} />
+            <SuggestMessage>
+              {Array.isArray(state.message) ? (
+                state.message.map((line, index) => (
+                  <span key={index}>
+                    {line} <br />
+                  </span>
+                ))
+              ) : (
+                <span>{state.message}</span>
+              )}
+            </SuggestMessage>
+          </SuggestionContainer>
+          <SuggestionContainer>
+            <SuggestImg src={state.image} />
+            <SuggestMessage>
+              {Array.isArray(state.message) ? (
+                state.message.map((line, index) => (
+                  <span key={index}>
+                    {line} <br />
+                  </span>
+                ))
+              ) : (
+                <span>{state.message}</span>
+              )}
+            </SuggestMessage>
+          </SuggestionContainer>
+        </ModalBodyContainer>
+      </ModalContainer>
+    </ModalBackground>
   );
 };
+
+export const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const ModalContainer = styled.div`
   width: 694px;

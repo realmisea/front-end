@@ -1,8 +1,22 @@
 import styled from 'styled-components';
 import { transparentize } from 'polished';
 import Sun from '@assets/images/weather/sun.png';
+import { useState } from 'react';
+import { SuggestionModal } from '@components/SuggestionModal.tsx';
+import { DetailModal } from '@components/DetailModal.tsx';
 
 export const PointWeather = () => {
+  const [isSuggestOpened, setIsSuggestOpened] = useState(false);
+  const [isDetailOpened, setIsDetailOpened] = useState(false);
+
+  const handleSuggestClick = () => {
+    setIsSuggestOpened((prev) => !prev);
+  };
+
+  const handleDetailClick = () => {
+    setIsDetailOpened((prev) => !prev);
+  };
+
   return (
     <Container>
       <PlaceName>A 충주 휴게소</PlaceName>
@@ -15,8 +29,22 @@ export const PointWeather = () => {
         </WeatherInfo>
       </WeatherBox>
       <BtnBox>
-        <SuggestBtn />
-        <DetailBtn />
+        <SuggestBtn onClick={handleSuggestClick} />
+        {isSuggestOpened && (
+          <SuggestionModal
+            onClose={() => {
+              setIsSuggestOpened(false);
+            }}
+          />
+        )}
+        <DetailBtn onClick={handleDetailClick} />
+        {isDetailOpened && (
+          <DetailModal
+            onClose={() => {
+              setIsDetailOpened(false);
+            }}
+          />
+        )}
       </BtnBox>
     </Container>
   );

@@ -1,40 +1,44 @@
 import {
   CloseBtn,
   HeaderTitle,
+  ModalBackground,
   ModalContainer,
-  ModalHeaderContainer
+  ModalHeaderContainer,
+  ModalProps
 } from './SuggestionModal.tsx';
 import Close from '@assets/images/close-button.svg';
 import Good from '@assets/images/dust/good.png';
 import styled from 'styled-components';
 import { HourWeather } from '@components/HourWeather.tsx';
 
-export const DetailModal = () => {
+export const DetailModal = ({ onClose }: ModalProps) => {
   return (
-    <ModalContainer>
-      <ModalHeaderContainer>
-        <HeaderTitle>오늘의 상세 날씨</HeaderTitle>
-        <CloseBtn src={Close} />
-      </ModalHeaderContainer>
-      <ModalBodyContainer>
-        <WeatherContainer>
-          <SubTitle>시간별 예보</SubTitle>
-          <DetailContainer>
-            <HourWeather />
-            <HourWeather />
-            <HourWeather />
-            <HourWeather />
-            <HourWeather />
-          </DetailContainer>
-        </WeatherContainer>
-        <AirContainer>
-          <SubTitle>통합 대기</SubTitle>
-          <DetailContainer>
-            <DustIcon src={Good} />
-          </DetailContainer>
-        </AirContainer>
-      </ModalBodyContainer>
-    </ModalContainer>
+    <ModalBackground>
+      <ModalContainer>
+        <ModalHeaderContainer>
+          <HeaderTitle>오늘의 상세 날씨</HeaderTitle>
+          <CloseBtn src={Close} onClick={onClose} />
+        </ModalHeaderContainer>
+        <ModalBodyContainer>
+          <WeatherContainer>
+            <SubTitle>시간별 예보</SubTitle>
+            <DetailContainer>
+              <HourWeather />
+              <HourWeather />
+              <HourWeather />
+              <HourWeather />
+              <HourWeather />
+            </DetailContainer>
+          </WeatherContainer>
+          <AirContainer>
+            <SubTitle>통합 대기</SubTitle>
+            <DetailContainer>
+              <DustIcon src={Good} />
+            </DetailContainer>
+          </AirContainer>
+        </ModalBodyContainer>
+      </ModalContainer>
+    </ModalBackground>
   );
 };
 
