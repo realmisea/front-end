@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { transparentize } from 'polished';
-import Sun from '@assets/images/weather/sun.png';
+// import Sun from '@assets/images/weather/sun.png';
+import SunAndCloud from '@assets/images/weather/sun-and-cloud.png';
+import Tip from '@assets/images/map/tip-button.svg';
+import WeatherTime from '@assets/images/map/weather-time.svg';
 import { useState } from 'react';
 import { SuggestionModal } from '@components/SuggestionModal.tsx';
 import { DetailModal } from '@components/DetailModal.tsx';
@@ -21,7 +24,7 @@ export const PointWeather = () => {
     <Container>
       <PlaceName>A 충주 휴게소</PlaceName>
       <WeatherBox>
-        <WeatherImg src={Sun} />
+        <WeatherImg src={SunAndCloud} />
         <WeatherInfo>
           <WeatherText>기온 32.2</WeatherText>
           <WeatherText>강수확률 70%</WeatherText>
@@ -29,7 +32,7 @@ export const PointWeather = () => {
         </WeatherInfo>
       </WeatherBox>
       <BtnBox>
-        <SuggestBtn onClick={handleSuggestClick} />
+        <SuggestBtn src={Tip} onClick={handleSuggestClick} />
         {isSuggestOpened && (
           <SuggestionModal
             onClose={() => {
@@ -37,7 +40,7 @@ export const PointWeather = () => {
             }}
           />
         )}
-        <DetailBtn onClick={handleDetailClick} />
+        <DetailBtn src={WeatherTime} onClick={handleDetailClick} />
         {isDetailOpened && (
           <DetailModal
             onClose={() => {
@@ -61,6 +64,7 @@ const Container = styled.div`
   border-radius: 50px;
   border: 4px solid ${({ theme }) => theme.colors.yellow};
   gap: 10px;
+  margin-left: 25px;
 `;
 
 const PlaceName = styled.h1`
@@ -77,7 +81,7 @@ const WeatherBox = styled.div`
   align-items: center;
   width: 100%;
   height: 150px;
-  background: lightpink;
+  //background: lightpink;
   gap: 30px;
 `;
 
@@ -107,19 +111,19 @@ const BtnBox = styled.div`
   width: 365px;
   height: 107px;
   border-radius: 30px;
-  gap: 20px;
+  gap: 40px;
 `;
 
-const Btn = styled.button`
-  width: 120px;
-  height: 70px;
+const Btn = styled.img`
+  width: 110px;
+  //height: 100px;
   cursor: pointer;
 `;
 
 const SuggestBtn = styled(Btn)`
-  background: cornflowerblue;
+  //background: cornflowerblue;
 `;
 
 const DetailBtn = styled(Btn)`
-  background: darkseagreen;
+  //background: darkseagreen;
 `;

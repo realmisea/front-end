@@ -4,36 +4,49 @@ import Arrow from '@assets/images/map/connection-arrow.svg';
 import Red from '@assets/images/map/red-circle.svg';
 import styled from 'styled-components';
 import { PointWeather } from '@components/Map/PointWeather.tsx';
+import { Map } from '@components/Map/Map.tsx';
 
 export const MapPage = () => {
   return (
-    <Container>
-      <MapContainer>
-        <MarkContainer>
-          <img src={Blue} />
-          <img src={Arrow} />
-          <img src={Red} />
-        </MarkContainer>
-        <PlaceContainer>
-          <PlaceInput title={'출발지: '} />
-          <PlaceInput title={'도착지: '} />
-        </PlaceContainer>
-      </MapContainer>
-      <PointWeather />
-    </Container>
+    <MapContainer>
+      <InfoContainer>
+        <InputContainer>
+          <MarkContainer>
+            <img src={Blue} />
+            <img src={Arrow} />
+            <img src={Red} />
+          </MarkContainer>
+          <PlaceContainer>
+            <PlaceInput title={'출발지: '} />
+            <PlaceInput title={'도착지: '} />
+          </PlaceContainer>
+        </InputContainer>
+        <PointWeather />
+      </InfoContainer>
+      <Map />
+    </MapContainer>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const MapContainer = styled.div`
   display: flex;
+  justify-content: center;
+  gap: 70px;
+  margin-top: 40px;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 37px;
+  //background: aqua;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
   gap: 9px;
-  background: burlywood;
-  margin-top: 30px;
+  //background: burlywood;
+  margin-left: 13px;
 `;
 
 const MarkContainer = styled.div`
@@ -41,11 +54,12 @@ const MarkContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 4px;
+  //background: red;
 `;
 
 const PlaceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 56px;
-  background: forestgreen;
+  //background: forestgreen;
 `;
