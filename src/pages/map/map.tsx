@@ -4,7 +4,7 @@ import Arrow from '@assets/images/map/connection-arrow.svg';
 import Red from '@assets/images/map/red-circle.svg';
 import styled from 'styled-components';
 import { PointWeather } from '@components/Map/PointWeather.tsx';
-import { Map } from '@components/Map/Map.tsx';
+import { MapView } from '@components/Map/MapView.tsx';
 
 export const MapPage = () => {
   return (
@@ -23,7 +23,7 @@ export const MapPage = () => {
         </InputContainer>
         <PointWeather />
       </InfoContainer>
-      <Map />
+      <MapView />
     </MapContainer>
   );
 };
@@ -31,7 +31,8 @@ export const MapPage = () => {
 const MapContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 70px;
+  align-items: center;
+  gap: 50px;
   margin-top: 40px;
 `;
 
