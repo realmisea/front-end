@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { MainPage } from '@pages/main';
-import { SuggestionModal } from '@components/SuggestionModal.tsx';
-import { Header } from '@components/Header.tsx';
-import { DetailModal } from './components/DetailModal.tsx';
+import { Layout } from '@components/Layout.tsx';
+import { MapPage } from '@pages/map';
 
 function App() {
   return (
@@ -10,11 +9,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route element={<Layout />}>
+            <Route path="/map" element={<MapPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
-      <Header />
-      <SuggestionModal />
-      <DetailModal />
     </>
   );
 }
