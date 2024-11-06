@@ -23,7 +23,7 @@ const WeatherContainer = styled.div`
   width: 100%;
   height: 18%;
   gap: 10px;
-  /* background: cornflowerblue; */
+  //background: cornflowerblue;
 `;
 
 const WeatherIcon = styled.img`
