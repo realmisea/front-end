@@ -15,3 +15,9 @@ export interface ForecastProps {
   fcstTime: string;
   fcstValue: string;
 }
+
+export interface HourWeatherProps {
+  time: string;
+  temperature: string;
+  skyIcon: string;
+}
