@@ -4,13 +4,30 @@ import { transparentize } from 'polished';
 import SunAndCloud from '@assets/images/weather/sun-and-cloud.png';
 import Tip from '@assets/images/map/tip-button.svg';
 import WeatherTime from '@assets/images/map/weather-time.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SuggestionModal } from '@components/SuggestionModal.tsx';
 import { DetailModal } from '@components/DetailModal.tsx';
+import { fetchWeatherData } from '@apis/weather.ts';
+import { ForecastProps } from '@types/weather.ts';
 
 export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
+
+  const [forecast, setForecast] = useState<ForecastProps[]>([]);
+
+  useEffect(() => {
+    const loadWeatherData = async () => {
+      try {
+        const data = await fetchWeatherData(55, 127); // 좌표 현재는 고정
+        setForecast(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadWeatherData();
+  }, []);
+  console.log(forecast);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
@@ -20,14 +37,22 @@ export const PointWeather = () => {
     setIsDetailOpened((prev) => !prev);
   };
 
+  const temperature =
+    forecast.find((item) => item.category === 'T1H')?.fcstValue || 'N/A';
+  const rain =
+    forecast.find((item) => item.category === 'RN1')?.fcstValue === '강수없음'
+      ? '없음'
+      : `${forecast.find((item) => item.category === 'RN1')?.fcstValue}mm` ||
+        'N/A';
+
   return (
     <Container>
       <PlaceName>A 충주 휴게소</PlaceName>
       <WeatherBox>
         <WeatherImg src={SunAndCloud} />
         <WeatherInfo>
-          <WeatherText>기온 32.2</WeatherText>
-          <WeatherText>강수확률 70%</WeatherText>
+          <WeatherText>기온 {temperature}°C</WeatherText>
+          <WeatherText>강수량 {rain}</WeatherText>
           <WeatherText>대기질 보통</WeatherText>
         </WeatherInfo>
       </WeatherBox>
