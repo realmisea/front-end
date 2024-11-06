@@ -32,9 +32,10 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
   const baseDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
   const baseTime = getPreviousHour();
 
-  console.log(baseDate, baseTime);
+  console.log('날짜, 시간: ', baseDate, baseTime);
+  console.log('위치 좌표: ', nx, ny);
 
-  const url = `${import.meta.env.VITE_BASE_URL}?serviceKey=${import.meta.env.VITE_WEATHER_API_KEY}&pageNo=1&numOfRows=10&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
+  const url = `${import.meta.env.VITE_BASE_URL}?serviceKey=${import.meta.env.VITE_WEATHER_API_KEY}&pageNo=1&numOfRows=60&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
   try {
     const response = await fetch(url);
@@ -42,8 +43,12 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
 
     if (contentType && contentType.includes('application/json')) {
       const data = await response.json();
+      const filteredData = data.response.body.items.item.filter((item) =>
+        ['T1H', 'RN1', 'SKY'].includes(item.category)
+      );
+      console.log(filteredData);
       console.log(data);
-      return data.response.body.items.item;
+      return filteredData;
     } else {
       const errorText = await response.text();
       console.error('Unexpected response format (not JSON):', errorText);
