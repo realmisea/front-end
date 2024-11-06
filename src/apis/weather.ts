@@ -2,11 +2,18 @@
  * 현재 시간 기준으로 가장 가까운 정각을 HHMM 형식으로 반환
  * @returns {string} - baseTime (예: "1000")
  */
-const getNearestHour = (): string => {
+const getPreviousHour = (): string => {
   const now = new Date();
-  now.setMinutes(0, 0, 0); // 분, 초, 밀리초를 0으로 설정하여 정각 시간 설정
+  const minutes = now.getMinutes();
+  if (minutes < 30) {
+    now.setHours(now.getHours() - 1);
+    now.setMinutes(30, 0, 0); // 분, 초, 밀리
+  } else {
+    now.setMinutes(30, 0, 0);
+  }
   const hours = now.getHours().toString().padStart(2, '0'); // 시를 2자리로 포맷팅
-  return `${hours}00`; // HHMM 형식으로 반환
+  const mins = now.getMinutes().toString().padStart(2, '0');
+  return `${hours}00${mins}`; // HHMM 형식으로 반환
 };
 
 /**
@@ -23,7 +30,9 @@ const getNearestHour = (): string => {
  */
 export const fetchWeatherData = async (nx: number, ny: number) => {
   const baseDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  const baseTime = getNearestHour();
+  const baseTime = getPreviousHour();
+
+  console.log(baseDate, baseTime);
 
   const url = `${import.meta.env.VITE_BASE_URL}?serviceKey=${import.meta.env.VITE_WEATHER_API_KEY}&pageNo=1&numOfRows=10&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
@@ -33,7 +42,7 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
 
     if (contentType && contentType.includes('application/json')) {
       const data = await response.json();
-      console.log(data.response.body.items.item);
+      console.log(data);
       return data.response.body.items.item;
     } else {
       const errorText = await response.text();
