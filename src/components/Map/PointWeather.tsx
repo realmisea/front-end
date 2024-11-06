@@ -7,25 +7,16 @@ import WeatherTime from '@assets/images/map/weather-time.svg';
 import { useEffect, useState } from 'react';
 import { SuggestionModal } from '@components/SuggestionModal.tsx';
 import { DetailModal } from '@components/DetailModal.tsx';
-import { fetchWeatherData } from '@apis/weather.ts';
-import { ForecastProps } from '@types/weather.ts';
+import { useForecastStore } from '../../stores/forecastStore.ts';
 
 export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
 
-  const [forecast, setForecast] = useState<ForecastProps[]>([]);
+  const { forecast, loadForecast } = useForecastStore();
 
   useEffect(() => {
-    const loadWeatherData = async () => {
-      try {
-        const data = await fetchWeatherData(55, 127); // 좌표 현재는 고정
-        setForecast(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadWeatherData();
+    loadForecast(55, 127); // 좌표 고정
   }, []);
   console.log(forecast);
 
