@@ -43,7 +43,7 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
 
     if (contentType && contentType.includes('application/json')) {
       const data = await response.json();
-      const filteredData = data.response.body.items.item.filter((item) =>
+      const filteredData = data.response.body.items.item.filter((item: Item) =>
         ['T1H', 'RN1', 'SKY'].includes(item.category)
       );
       console.log(filteredData);
