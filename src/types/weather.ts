@@ -21,3 +21,7 @@ export interface HourWeatherProps {
   temperature: string;
   skyIcon: string;
 }
+
+export interface TempBoxProps {
+  temperature: number;
+}

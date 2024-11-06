@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { HourWeatherProps } from '@types/weather.ts';
+import { HourWeatherProps, TempBoxProps } from '@types/weather.ts';
 
 export const HourWeather = ({
   time,
@@ -11,7 +11,7 @@ export const HourWeather = ({
       <p>{time}</p>
       <WeatherIcon src={skyIcon} />
       <Line />
-      <TempBox>{temperature}°C</TempBox>
+      <TempBox temperature={temperature}>{temperature}°C</TempBox>
     </WeatherContainer>
   );
 };
@@ -37,14 +37,23 @@ const Line = styled.div`
   background: black;
 `;
 
-const TempBox = styled.div`
+const TempBox = styled.div<TempBoxProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 28px;
-  background: orange;
+  background: ${({ temperature }) =>
+    temperature >= 30
+      ? '#fc4103'
+      : temperature >= 25
+        ? '#fcba03'
+        : temperature >= 16
+          ? '#fcd303'
+          : temperature >= 6
+            ? '#82b2ff'
+            : '#c9deff'};
   border-radius: 7px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 14px;
 `;
