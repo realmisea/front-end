@@ -23,5 +23,5 @@ export interface HourWeatherProps {
 }
 
 export interface TempBoxProps {
-  temperature: number;
+  temperature: string;
 }
