@@ -1,13 +1,17 @@
 import styled from 'styled-components';
-import Sun from '@assets/images/weather/sun.png';
+import { HourWeatherProps, TempBoxProps } from '@types/weather.ts';
 
-export const HourWeather = () => {
+export const HourWeather = ({
+  time,
+  temperature,
+  skyIcon
+}: HourWeatherProps) => {
   return (
     <WeatherContainer>
-      <p>12시</p>
-      <WeatherIcon src={Sun} />
+      <p>{time}</p>
+      <WeatherIcon src={skyIcon} />
       <Line />
-      <TempBox>29</TempBox>
+      <TempBox temperature={temperature}>{temperature}°C</TempBox>
     </WeatherContainer>
   );
 };
@@ -19,7 +23,7 @@ const WeatherContainer = styled.div`
   width: 100%;
   height: 18%;
   gap: 10px;
-  /* background: cornflowerblue; */
+  //background: cornflowerblue;
 `;
 
 const WeatherIcon = styled.img`
@@ -33,13 +37,23 @@ const Line = styled.div`
   background: black;
 `;
 
-const TempBox = styled.div`
+const TempBox = styled.div<TempBoxProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 28px;
-  background: orange;
+  background: ${({ temperature }) =>
+    temperature >= 30
+      ? '#fc4103'
+      : temperature >= 25
+        ? '#fcba03'
+        : temperature >= 16
+          ? '#fcd303'
+          : temperature >= 6
+            ? '#82b2ff'
+            : '#c9deff'};
   border-radius: 7px;
   font-weight: bold;
+  font-size: 14px;
 `;

@@ -82,7 +82,7 @@ export const ModalContainer = styled.div`
 
 export const ModalHeaderContainer = styled.div`
   width: 100%;
-  height: 75px;
+  height: 68px;
   background: ${({ theme }) => theme.colors.yellow};
   display: flex;
   justify-content: center;
