@@ -1,22 +1,32 @@
 import styled from 'styled-components';
 import { transparentize } from 'polished';
-// import Sun from '@assets/images/weather/sun.png';
-import SunAndCloud from '@assets/images/weather/sun-and-cloud.png';
 import Tip from '@assets/images/map/tip-button.svg';
 import WeatherTime from '@assets/images/map/weather-time.svg';
 import { useEffect, useState } from 'react';
 import { SuggestionModal } from '@components/SuggestionModal.tsx';
 import { DetailModal } from '@components/DetailModal.tsx';
 import { useForecastStore } from '../../stores/forecastStore.ts';
+import Sun from '@assets/images/weather/sun.png';
+import SunAndCloud from '@assets/images/weather/sun-and-cloud.png';
+import Cloud from '@assets/images/weather/cloudy.png';
+import Moon from '@assets/images/weather/moon.png';
+import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
+import CloudNight from '@assets/images/weather/darkness.png';
 
 export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { forecast, loadForecast } = useForecastStore();
 
   useEffect(() => {
-    loadForecast(55, 127); // 좌표 고정
+    const load = async () => {
+      setIsLoading(true);
+      await loadForecast(55, 127); // 좌표 고정
+      setIsLoading(false);
+    };
+    load();
   }, []);
   console.log(forecast);
 
@@ -28,6 +38,21 @@ export const PointWeather = () => {
     setIsDetailOpened((prev) => !prev);
   };
 
+  const getSkyIcon = (sky: string, hour: number) => {
+    const isNight = hour >= 20 || hour <= 7;
+    if (sky === '1') return isNight ? Moon : Sun; // 맑음
+    if (sky === '3') return isNight ? MoonAndCloud : SunAndCloud; // 구름 많음
+    if (sky === '4') return isNight ? CloudNight : Cloud; // 흐림
+    return Sun; // 기본값 근데 Sun 말고 다른 걸로 해야함 일단은 Sun으로
+  };
+
+  const sky =
+    forecast.find((item) => item.category === 'SKY')?.fcstValue || '1';
+  const time =
+    forecast.find((item) => item.category === 'SKY')?.fcstTime || '1200';
+  const hour = parseInt(time.slice(0, 2), 10);
+  const skyIcon = getSkyIcon(sky, hour);
+
   const temperature =
     forecast.find((item) => item.category === 'T1H')?.fcstValue || 'N/A';
   const rain =
@@ -38,33 +63,39 @@ export const PointWeather = () => {
 
   return (
     <Container>
-      <PlaceName>A 충주 휴게소</PlaceName>
-      <WeatherBox>
-        <WeatherImg src={SunAndCloud} />
-        <WeatherInfo>
-          <WeatherText>기온 {temperature}°C</WeatherText>
-          <WeatherText>강수량 {rain}</WeatherText>
-          <WeatherText>대기질 보통</WeatherText>
-        </WeatherInfo>
-      </WeatherBox>
-      <BtnBox>
-        <SuggestBtn src={Tip} onClick={handleSuggestClick} />
-        {isSuggestOpened && (
-          <SuggestionModal
-            onClose={() => {
-              setIsSuggestOpened(false);
-            }}
-          />
-        )}
-        <DetailBtn src={WeatherTime} onClick={handleDetailClick} />
-        {isDetailOpened && (
-          <DetailModal
-            onClose={() => {
-              setIsDetailOpened(false);
-            }}
-          />
-        )}
-      </BtnBox>
+      {isLoading ? (
+        <LoadingMessage>Loading...</LoadingMessage>
+      ) : (
+        <>
+          <PlaceName>A 충주 휴게소</PlaceName>
+          <WeatherBox>
+            <WeatherImg src={skyIcon} />
+            <WeatherInfo>
+              <WeatherText>기온 {temperature}°C</WeatherText>
+              <WeatherText>강수량 {rain}</WeatherText>
+              <WeatherText>대기질 보통</WeatherText>
+            </WeatherInfo>
+          </WeatherBox>
+          <BtnBox>
+            <SuggestBtn src={Tip} onClick={handleSuggestClick} />
+            {isSuggestOpened && (
+              <SuggestionModal
+                onClose={() => {
+                  setIsSuggestOpened(false);
+                }}
+              />
+            )}
+            <DetailBtn src={WeatherTime} onClick={handleDetailClick} />
+            {isDetailOpened && (
+              <DetailModal
+                onClose={() => {
+                  setIsDetailOpened(false);
+                }}
+              />
+            )}
+          </BtnBox>
+        </>
+      )}
     </Container>
   );
 };
@@ -81,6 +112,14 @@ const Container = styled.div`
   border: 4px solid ${({ theme }) => theme.colors.yellow};
   gap: 10px;
   margin-left: 25px;
+`;
+
+const LoadingMessage = styled.p`
+  font-size: 30px;
+  font-weight: bold;
+  font-family:
+    Noto Sans KR,
+    serif;
 `;
 
 const PlaceName = styled.h1`
