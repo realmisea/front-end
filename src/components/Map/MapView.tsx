@@ -1,14 +1,30 @@
 import styled from 'styled-components';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { KakaoMapLoader } from '@components/Map/KaKaoMapLoader.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getRegionName } from '../../utils/getUtils.ts';
 
 export const MapView = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [regionName, setRegionName] = useState<string | null>(null);
 
   const handleMapLoad = () => {
     setIsMapLoaded(true);
   };
+
+  useEffect(() => {
+    if (isMapLoaded) {
+      const lat = 37.506320759000715;
+      const lng = 127.05368251210247;
+
+      getRegionName(lat, lng)
+        .then((name) => {
+          setRegionName(name);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [isMapLoaded]);
+  console.log(regionName);
 
   return (
     <MapContainer>
