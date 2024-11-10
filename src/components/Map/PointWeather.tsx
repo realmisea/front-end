@@ -16,11 +16,17 @@ import CloudNight from '@assets/images/weather/darkness.png';
 export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { forecast, loadForecast } = useForecastStore();
 
   useEffect(() => {
-    loadForecast(55, 127); // 좌표 고정
+    const load = async () => {
+      setIsLoading(true);
+      await loadForecast(55, 127); // 좌표 고정
+      setIsLoading(false);
+    };
+    load();
   }, []);
   console.log(forecast);
 
@@ -57,33 +63,39 @@ export const PointWeather = () => {
 
   return (
     <Container>
-      <PlaceName>A 충주 휴게소</PlaceName>
-      <WeatherBox>
-        <WeatherImg src={skyIcon} />
-        <WeatherInfo>
-          <WeatherText>기온 {temperature}°C</WeatherText>
-          <WeatherText>강수량 {rain}</WeatherText>
-          <WeatherText>대기질 보통</WeatherText>
-        </WeatherInfo>
-      </WeatherBox>
-      <BtnBox>
-        <SuggestBtn src={Tip} onClick={handleSuggestClick} />
-        {isSuggestOpened && (
-          <SuggestionModal
-            onClose={() => {
-              setIsSuggestOpened(false);
-            }}
-          />
-        )}
-        <DetailBtn src={WeatherTime} onClick={handleDetailClick} />
-        {isDetailOpened && (
-          <DetailModal
-            onClose={() => {
-              setIsDetailOpened(false);
-            }}
-          />
-        )}
-      </BtnBox>
+      {isLoading ? (
+        <LoadingMessage>Loading...</LoadingMessage>
+      ) : (
+        <>
+          <PlaceName>A 충주 휴게소</PlaceName>
+          <WeatherBox>
+            <WeatherImg src={skyIcon} />
+            <WeatherInfo>
+              <WeatherText>기온 {temperature}°C</WeatherText>
+              <WeatherText>강수량 {rain}</WeatherText>
+              <WeatherText>대기질 보통</WeatherText>
+            </WeatherInfo>
+          </WeatherBox>
+          <BtnBox>
+            <SuggestBtn src={Tip} onClick={handleSuggestClick} />
+            {isSuggestOpened && (
+              <SuggestionModal
+                onClose={() => {
+                  setIsSuggestOpened(false);
+                }}
+              />
+            )}
+            <DetailBtn src={WeatherTime} onClick={handleDetailClick} />
+            {isDetailOpened && (
+              <DetailModal
+                onClose={() => {
+                  setIsDetailOpened(false);
+                }}
+              />
+            )}
+          </BtnBox>
+        </>
+      )}
     </Container>
   );
 };
@@ -100,6 +112,14 @@ const Container = styled.div`
   border: 4px solid ${({ theme }) => theme.colors.yellow};
   gap: 10px;
   margin-left: 25px;
+`;
+
+const LoadingMessage = styled.p`
+  font-size: 30px;
+  font-weight: bold;
+  font-family:
+    Noto Sans KR,
+    serif;
 `;
 
 const PlaceName = styled.h1`
