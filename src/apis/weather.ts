@@ -1,3 +1,5 @@
+import { Item } from '@types/weather.ts';
+
 /**
  * 현재 시간 기준으로 가장 가까운 정각을 HHMM 형식으로 반환
  * @returns {string} - baseTime (예: "1000")
@@ -35,7 +37,7 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
   console.log('날짜, 시간: ', baseDate, baseTime);
   console.log('위치 좌표: ', nx, ny);
 
-  const url = `${import.meta.env.VITE_BASE_URL}?serviceKey=${import.meta.env.VITE_WEATHER_API_KEY}&pageNo=1&numOfRows=60&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
+  const url = `${import.meta.env.VITE_WEAHTER_BASE_URL}?serviceKey=${import.meta.env.VITE_API_KEY}&pageNo=1&numOfRows=60&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
   try {
     const response = await fetch(url);
