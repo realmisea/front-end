@@ -9,7 +9,7 @@ export const KakaoMapLoader = ({ onLoad }: { onLoad: () => void }) => {
 
     kakaoMapScript.onload = () => {
       window.kakao.maps.load(() => {
-        console.log('Kakao Maps API loaded');
+        // console.log('Kakao Maps API loaded');
         onLoad();
       });
     };
