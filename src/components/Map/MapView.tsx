@@ -6,7 +6,7 @@ import { getRegionName } from '../../utils/getUtils.ts';
 
 export const MapView = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const [regionName, setRegionName] = useState<string | null>(null);
+  const [regionName, setRegionName] = useState<string>('');
 
   const handleMapLoad = () => {
     setIsMapLoaded(true);

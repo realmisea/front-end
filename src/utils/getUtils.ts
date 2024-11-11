@@ -1,7 +1,4 @@
-export async function getRegionName(
-  lat: number,
-  lng: number
-): Promise<string | null> {
+export async function getRegionName(lat: number, lng: number): Promise<string> {
   return new Promise((resolve, reject) => {
     const geocoder = new kakao.maps.services.Geocoder();
 
@@ -10,7 +7,7 @@ export async function getRegionName(
         console.log('Geocoder response:', result);
 
         // result[0]가 undefined일 때 대비
-        const regionName = result[0]?.region_1depth_name || null;
+        const regionName = result[0]?.region_1depth_name || '';
 
         if (regionName) {
           resolve(regionName);
