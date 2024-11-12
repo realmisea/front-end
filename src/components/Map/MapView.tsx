@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { KakaoMapLoader } from '@components/Map/KaKaoMapLoader.tsx';
+import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useEffect, useState } from 'react';
-import { getRegionName } from '../../utils/getUtils.ts';
+import { getRegionName } from '@utils/getUtils.ts';
 
 export const MapView = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
