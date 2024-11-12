@@ -67,6 +67,12 @@ export const MainPage = () => {
     setEndResults([]);
   };
 
+  const handleKeyDown = (e: KeyboardEvent, isStart: boolean) => {
+    if (e.key === 'Enter') {
+      isStart ? handleStartSearch() : handleEndSearch();
+    }
+  };
+
   return (
     <MainContainer>
       <KakaoMapLoader onLoad={handleMapLoad} />
@@ -77,6 +83,7 @@ export const MainPage = () => {
           <Input
             value={startPlace}
             onChange={(e) => setStartPlace(e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, true)}
           />
           <SearchButton onClick={handleStartSearch}>
             <img src={SearchIcon} alt="검색" />
@@ -100,6 +107,7 @@ export const MainPage = () => {
           <Input
             value={endPlace}
             onChange={(e) => setEndPlace(e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, false)}
           />
           <SearchButton onClick={handleEndSearch}>
             <img src={SearchIcon} alt="검색" />
