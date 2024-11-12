@@ -28,7 +28,7 @@ export const PointWeather = () => {
     };
     load();
   }, []);
-  console.log(forecast);
+  // console.log(forecast);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);

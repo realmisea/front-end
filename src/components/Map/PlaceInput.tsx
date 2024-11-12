@@ -6,7 +6,7 @@ interface PlaceInputProps {
 }
 
 export const PlaceInput = ({ title }: PlaceInputProps) => {
-  console.log(title);
+  // console.log(title);
   return (
     <InputContainer>
       <InputText>{title}</InputText>

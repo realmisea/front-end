@@ -24,7 +24,7 @@ export const DetailModal = ({ onClose }: ModalProps) => {
   const filteredForecast = forecast.filter((item) =>
     ['T1H', 'SKY'].includes(item.category)
   );
-  console.log(filteredForecast);
+  // console.log(filteredForecast);
 
   // 하늘 상태에 따른 아이콘을 반환하는 함수
   const getSkyIcon = (sky: string, hour: number) => {

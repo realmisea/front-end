@@ -34,8 +34,8 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
   const baseDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
   const baseTime = getPreviousHour();
 
-  console.log('날짜, 시간: ', baseDate, baseTime);
-  console.log('위치 좌표: ', nx, ny);
+  // console.log('날짜, 시간: ', baseDate, baseTime);
+  // console.log('위치 좌표: ', nx, ny);
 
   const url = `${import.meta.env.VITE_WEAHTER_BASE_URL}?serviceKey=${import.meta.env.VITE_API_KEY}&pageNo=1&numOfRows=60&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
@@ -48,8 +48,7 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
       const filteredData = data.response.body.items.item.filter((item: Item) =>
         ['T1H', 'RN1', 'SKY'].includes(item.category)
       );
-      console.log(filteredData);
-      console.log(data);
+      // console.log(filteredData);
       return filteredData;
     } else {
       const errorText = await response.text();
