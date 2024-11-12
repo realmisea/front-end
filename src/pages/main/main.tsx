@@ -4,6 +4,7 @@ import SearchIcon from '@assets/images/search.svg';
 import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useEffect, useState } from 'react';
 import { Place, searchPlace } from '@utils/KakaoMapService.ts';
+import { useNavigate } from 'react-router-dom';
 
 export const MainPage = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
@@ -19,6 +20,8 @@ export const MainPage = () => {
     lat: number;
     lng: number;
   } | null>(null);
+
+  const navigate = useNavigate();
 
   const handleMapLoad = () => {
     setIsMapLoaded(true);
@@ -83,6 +86,17 @@ export const MainPage = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (selectedStartCoords && selectedEndCoords) {
+      navigate(`/map`, {
+        state: {
+          start: { ...selectedStartCoords, placeName: startPlace },
+          end: { ...selectedEndCoords, placeName: endPlace }
+        }
+      });
+    }
+  }, [selectedStartCoords, selectedEndCoords, navigate, startPlace, endPlace]);
 
   return (
     <MainContainer>
