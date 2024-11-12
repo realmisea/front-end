@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Cloud from '@assets/images/main-cloud.svg';
 import SearchIcon from '@assets/images/search.svg';
 import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Place, searchPlace } from '@utils/KakaoMapService.ts';
 
 export const MainPage = () => {
@@ -72,6 +72,17 @@ export const MainPage = () => {
       isStart ? handleStartSearch() : handleEndSearch();
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setStartResults([]);
+      setEndResults([]);
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
     <MainContainer>
