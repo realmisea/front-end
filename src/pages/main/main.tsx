@@ -3,14 +3,14 @@ import Cloud from '@assets/images/main-cloud.svg';
 import SearchIcon from '@assets/images/search.svg';
 import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useState } from 'react';
-import { searchPlace } from '@utils/KakaoMapService.ts';
+import { Place, searchPlace } from '@utils/KakaoMapService.ts';
 
 export const MainPage = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [startPlace, setStartPlace] = useState('');
   const [endPlace, setEndPlace] = useState('');
-  const [startResults, setStartResults] = useState([]);
-  const [endResults, setEndResults] = useState([]);
+  const [startResults, setStartResults] = useState<Place[]>([]);
+  const [endResults, setEndResults] = useState<Place[]>([]);
   const [selectedStartCoords, setSelectedStartCoords] = useState<{
     lat: number;
     lng: number;
@@ -49,7 +49,7 @@ export const MainPage = () => {
   };
 
   // 출발지 선택
-  const handleStartSelect = (place) => {
+  const handleStartSelect = (place: Place) => {
     setStartPlace(place.place_name);
     setSelectedStartCoords({
       lat: parseFloat(place.y),
@@ -58,7 +58,7 @@ export const MainPage = () => {
     setStartResults([]);
   };
 
-  const handleEndSelect = (place) => {
+  const handleEndSelect = (place: Place) => {
     setEndPlace(place.place_name);
     setSelectedEndCoords({
       lat: parseFloat(place.y),
@@ -81,8 +81,6 @@ export const MainPage = () => {
           <SearchButton onClick={handleStartSearch}>
             <img src={SearchIcon} alt="검색" />
           </SearchButton>
-        </InputWrapper>
-        <InputWrapper>
           {startResults && (
             <ResultsContainer>
               {startResults.map((place) => (
@@ -95,6 +93,9 @@ export const MainPage = () => {
               ))}
             </ResultsContainer>
           )}
+        </InputWrapper>
+
+        <InputWrapper>
           <LabelText>도착지: </LabelText>
           <Input
             value={endPlace}
@@ -103,38 +104,24 @@ export const MainPage = () => {
           <SearchButton onClick={handleEndSearch}>
             <img src={SearchIcon} alt="검색" />
           </SearchButton>
+          {endResults && (
+            <ResultsContainer>
+              {endResults.map((place) => (
+                <ResultItem
+                  key={place.id}
+                  onClick={() => handleEndSelect(place)}
+                >
+                  {place.place_name}
+                </ResultItem>
+              ))}
+            </ResultsContainer>
+          )}
         </InputWrapper>
-        {endResults && (
-          <ResultsContainer>
-            {endResults.map((place) => (
-              <ResultItem key={place.id} onClick={() => handleEndSelect(place)}>
-                {place.place_name}
-              </ResultItem>
-            ))}
-          </ResultsContainer>
-        )}
       </InputContainer>
       <CloudImg src={Cloud} alt="구름" />
     </MainContainer>
   );
 };
-
-const ResultsContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  max-height: 200px;
-  overflow-y: auto;
-`;
-
-const ResultItem = styled.div`
-  cursor: pointer;
-  &:hover {
-    background: #f1f1f1;
-  }
-`;
 
 const MainContainer = styled.div`
   width: 1280px;
@@ -162,14 +149,34 @@ const InputContainer = styled.div`
 `;
 
 const InputWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   width: 640px;
   height: 88px;
   border: 3px solid ${({ theme }) => theme.colors.gray};
-  border-radius: 50px;
+  //border-radius: 50px;
   //background: white;
   background: cornflowerblue;
+`;
+
+const ResultsContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+`;
+
+const ResultItem = styled.div`
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background: #f1f1f1;
+  }
 `;
 
 const LabelText = styled.span`
