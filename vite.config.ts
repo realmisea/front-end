@@ -1,20 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import basicSsl from '@vitejs/plugin-basic-ssl';
-import mkcert from 'vite-plugin-mkcert';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    basicSsl(),
-    mkcert({
-      certFileName: './localhost.pem',
-      keyFileName: './localhost-key.pem'
-    })
-  ],
+  plugins: [react(), basicSsl()],
   server: {
-    https: true,
+    // https: true,
     proxy: {
       '/api': {
         target: 'https://fierce-jerrilee-realmisea-3853df29.koyeb.app',
