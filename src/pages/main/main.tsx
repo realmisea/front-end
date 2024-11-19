@@ -188,9 +188,7 @@ const InputWrapper = styled.div`
   width: 640px;
   height: 88px;
   border: 3px solid ${({ theme }) => theme.colors.gray};
-  //border-radius: 50px;
-  //background: white;
-  background: cornflowerblue;
+  background: white;
 `;
 
 const ResultsContainer = styled.div`
