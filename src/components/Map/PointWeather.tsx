@@ -31,7 +31,7 @@ export const PointWeather = () => {
     };
     load();
   }, []);
-  console.log(forecast);
+  // console.log(forecast);
 
   // 출발, 도착지 -> 중간 휴게소 계산
   useEffect(() => {
@@ -41,7 +41,7 @@ export const PointWeather = () => {
     createRoute(start, end)
       .then((data) => {
         setRouteData(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => console.error(error));
   }, []);
