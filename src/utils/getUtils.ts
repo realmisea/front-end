@@ -4,7 +4,7 @@ export async function getRegionName(lat: number, lng: number): Promise<string> {
 
     geocoder.coord2RegionCode(lng, lat, (result, status) => {
       if (status === kakao.maps.services.Status.OK && result.length > 0) {
-        console.log('Geocoder response:', result);
+        // console.log('Geocoder response:', result);
 
         // result[0]가 undefined일 때 대비
         const regionName = result[0]?.region_1depth_name || '';
