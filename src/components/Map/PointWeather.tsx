@@ -12,14 +12,17 @@ import Cloud from '@assets/images/weather/cloudy.png';
 import Moon from '@assets/images/weather/moon.png';
 import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
 import CloudNight from '@assets/images/weather/darkness.png';
+import { createRoute } from '@apis/route.ts';
 
 export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [routeData, setRouteData] = useState(null);
 
   const { forecast, loadForecast } = useForecastStore();
 
+  // 지도에 띄우는 부분
   useEffect(() => {
     const load = async () => {
       setIsLoading(true);
@@ -28,7 +31,20 @@ export const PointWeather = () => {
     };
     load();
   }, []);
-  // console.log(forecast);
+  console.log(forecast);
+
+  // 출발, 도착지 -> 중간 휴게소 계산
+  useEffect(() => {
+    const start = { latitude: 37, longitude: 127 }; // 예시 출발 좌표 (서울)
+    const end = { latitude: 35, longitude: 129 }; // 예시 도착 좌표 (부산)
+
+    createRoute(start, end)
+      .then((data) => {
+        setRouteData(data);
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);

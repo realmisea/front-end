@@ -24,7 +24,7 @@ export const MapView = () => {
         .catch((error) => console.error(error));
     }
   }, [isMapLoaded]);
-  console.log(regionName);
+  // console.log(regionName);
 
   return (
     <MapContainer>
