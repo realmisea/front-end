@@ -10,7 +10,7 @@ export const PlaceInput = ({ title }: PlaceInputProps) => {
   return (
     <InputContainer>
       <InputText>{title}</InputText>
-      <SearchImg src={SearchIcon} />
+      {/*<SearchImg src={SearchIcon} />*/}
     </InputContainer>
   );
 };

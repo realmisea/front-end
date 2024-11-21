@@ -5,8 +5,12 @@ import Red from '@assets/images/map/red-circle.svg';
 import styled from 'styled-components';
 import { PointWeather } from '@components/Map/PointWeather.tsx';
 import { MapView } from '@components/Map/MapView.tsx';
+import { useLocation } from 'react-router-dom';
 
 export const MapPage = () => {
+  const location = useLocation();
+  console.log(location);
+  const { start, end } = location.state;
   return (
     <MapContainer>
       <InfoContainer>
@@ -17,8 +21,8 @@ export const MapPage = () => {
             <img src={Red} />
           </MarkContainer>
           <PlaceContainer>
-            <PlaceInput title={'출발지: '} />
-            <PlaceInput title={'도착지: '} />
+            <PlaceInput title={`출발지: ${start.placeName}`} />
+            <PlaceInput title={`도착지: ${end.placeName}`} />
           </PlaceContainer>
         </InputContainer>
         <PointWeather />
