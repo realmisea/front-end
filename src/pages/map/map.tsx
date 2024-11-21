@@ -9,7 +9,6 @@ import { useLocation } from 'react-router-dom';
 
 export const MapPage = () => {
   const location = useLocation();
-  console.log(location);
   const { start, end } = location.state;
   return (
     <MapContainer>

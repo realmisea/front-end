@@ -13,6 +13,7 @@ import Moon from '@assets/images/weather/moon.png';
 import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
 import CloudNight from '@assets/images/weather/darkness.png';
 import { createRoute } from '@apis/route.ts';
+import { useLocation } from 'react-router-dom';
 
 export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
@@ -21,6 +22,10 @@ export const PointWeather = () => {
   const [routeData, setRouteData] = useState(null);
 
   const { forecast, loadForecast } = useForecastStore();
+
+  const location = useLocation();
+  console.log(location);
+  const { start, end } = location.state;
 
   // 지도에 띄우는 부분
   useEffect(() => {
@@ -35,10 +40,10 @@ export const PointWeather = () => {
 
   // 출발, 도착지 -> 중간 휴게소 계산
   useEffect(() => {
-    const start = { latitude: 37, longitude: 127 }; // 예시 출발 좌표 (서울)
-    const end = { latitude: 35, longitude: 129 }; // 예시 도착 좌표 (부산)
+    const startPoint = { latitude: start.lat, longitude: start.lng };
+    const endPoint = { latitude: end.lat, longitude: end.lng };
 
-    createRoute(start, end)
+    createRoute(startPoint, endPoint)
       .then((data) => {
         setRouteData(data);
         // console.log(data);
