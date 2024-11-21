@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 export const MainPage = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [startInput, setStartInput] = useState('');
+  const [endInput, setEndInput] = useState('');
   const [startPlace, setStartPlace] = useState('');
   const [endPlace, setEndPlace] = useState('');
   const [startResults, setStartResults] = useState<Place[]>([]);
@@ -29,11 +31,11 @@ export const MainPage = () => {
 
   // 출발지 검색
   const handleStartSearch = async () => {
-    if (!isMapLoaded || !startPlace) return;
+    if (!isMapLoaded || !startInput.trim()) return;
     try {
-      const results = await searchPlace(startPlace);
+      const results = await searchPlace(startInput);
       console.log('출발지 검색 결과: ', results);
-      setStartResults(results); // 수정: startResults에 저장하도록 변경
+      setStartResults(results);
     } catch (error) {
       console.error(error);
     }
@@ -41,11 +43,11 @@ export const MainPage = () => {
 
   // 도착지 검색
   const handleEndSearch = async () => {
-    if (!isMapLoaded || !endPlace) return;
+    if (!isMapLoaded || !endInput.trim()) return;
     try {
-      const results = await searchPlace(endPlace);
+      const results = await searchPlace(endInput);
       console.log('도착지 검색 결과: ', results);
-      setEndResults(results); // 수정: endResults에 저장하도록 변경
+      setEndResults(results);
     } catch (error) {
       console.error(error);
     }
@@ -54,6 +56,7 @@ export const MainPage = () => {
   // 출발지 선택
   const handleStartSelect = (place: Place) => {
     setStartPlace(place.place_name);
+    // setStartInput(place.place_name);
     setSelectedStartCoords({
       lat: parseFloat(place.y),
       lng: parseFloat(place.x)
@@ -63,11 +66,13 @@ export const MainPage = () => {
 
   const handleEndSelect = (place: Place) => {
     setEndPlace(place.place_name);
+    setEndInput(place.place_name);
     setSelectedEndCoords({
       lat: parseFloat(place.y),
       lng: parseFloat(place.x)
     });
     setEndResults([]);
+    console.log(endPlace);
   };
 
   const handleKeyDown = (e: KeyboardEvent, isStart: boolean) => {
@@ -98,6 +103,11 @@ export const MainPage = () => {
     }
   }, [selectedStartCoords, selectedEndCoords, navigate, startPlace, endPlace]);
 
+  useEffect(() => {
+    console.log(startPlace);
+    console.log(endPlace);
+  }, [startPlace, endPlace]);
+
   return (
     <MainContainer>
       <KakaoMapLoader onLoad={handleMapLoad} />
@@ -106,8 +116,8 @@ export const MainPage = () => {
         <InputWrapper>
           <LabelText>출발지: </LabelText>
           <Input
-            value={startPlace}
-            onChange={(e) => setStartPlace(e.target.value)}
+            value={startInput}
+            onChange={(e) => setStartInput(e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, true)}
           />
           <SearchButton onClick={handleStartSearch}>
@@ -130,8 +140,8 @@ export const MainPage = () => {
         <InputWrapper>
           <LabelText>도착지: </LabelText>
           <Input
-            value={endPlace}
-            onChange={(e) => setEndPlace(e.target.value)}
+            value={endInput}
+            onChange={(e) => setEndInput(e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, false)}
           />
           <SearchButton onClick={handleEndSearch}>
