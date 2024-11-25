@@ -1,21 +1,25 @@
 import styled from 'styled-components';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
 import { useEffect, useRef, useState } from 'react';
-import { getRegionName } from '@utils/getUtils.ts';
 import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
 import { useKakaoLoader } from '@hooks/useKakaoLoader.ts';
 
+type RouteCoord = {
+  lat: number;
+  lng: number;
+  title: string;
+};
+
 export const MapView = () => {
   const mapRef = useRef<kakao.maps.Map | null>(null); // Map 객체 저장
 
-  const [routeCoords, setRouteCoords] = useState<
-    { lat: number; lng: number }[]
-  >([]);
+  const [routeCoords, setRouteCoords] = useState<RouteCoord[]>([]);
   const [center, setCenter] = useState({
     lat: 37.22343906361677,
     lng: 127.18729793101929
   });
+  const [openMarkerIndex, setOpenMarkerIndex] = useState<number | null>(null); // 열려 있는 마커의 index 저장
 
   const isLoaded = useKakaoLoader();
 
@@ -36,12 +40,13 @@ export const MapView = () => {
     createRoute(startPoint, endPoint)
       .then((data) => {
         const coords = [
-          { lat: start.lat, lng: start.lng }, // 출발지
-          ...data.intermediatePoints.map((point: any) => ({
-            lat: point.latitude,
-            lng: point.longitude
-          })), // 중간 경유지
-          { lat: end.lat, lng: end.lng } // 도착지
+          { lat: start.lat, lng: start.lng, title: '출발' },
+          ...data.intermediatePoints.map((point: any, index: number) => ({
+            lat: point.restArea.coordinates.latitude,
+            lng: point.restArea.coordinates.longitude,
+            title: point.restArea.name
+          })),
+          { lat: end.lat, lng: end.lng, title: '도착' }
         ];
         setRouteCoords(coords);
         // console.log(data);
@@ -50,28 +55,20 @@ export const MapView = () => {
   }, []);
   console.log(routeCoords);
 
-  // useEffect(() => {
-  //   if (isMapLoaded) {
-  //     const lat = 37.506320759000715;
-  //     const lng = 127.05368251210247;
-  //
-  //     getRegionName(lat, lng)
-  //       .then((name) => {
-  //         setRegionName(name);
-  //       })
-  //       .catch((error) => console.error(error));
-  //   }
-  // }, [isMapLoaded]);
-  // console.log(regionName);
-
   useEffect(() => {
     if (mapRef.current && routeCoords.length > 0) {
       const bounds = new window.kakao.maps.LatLngBounds();
-      routeCoords.forEach((coord) =>
-        bounds.extend(new window.kakao.maps.LatLng(coord.lat, coord.lng))
-      );
-      mapRef.current.setBounds(bounds); // 경로를 한눈에 보이도록 중심과 줌 설정
+      routeCoords.forEach((coord) => {
+        if (coord.lat && coord.lng) {
+          bounds.extend(new window.kakao.maps.LatLng(coord.lat, coord.lng));
+        }
+      });
+      mapRef.current.setBounds(bounds);
     }
+  }, [routeCoords]);
+
+  useEffect(() => {
+    console.log(routeCoords);
   }, [routeCoords]);
 
   return (
@@ -98,21 +95,30 @@ export const MapView = () => {
           )}
 
           {/* 마커 */}
-          {routeCoords.map((coord, index) => {
-            let title = '';
-            if (index === 0) title = '출발';
-            else if (index === routeCoords.length - 1) title = '도착';
-            else title = String.fromCharCode(65 + index - 1); // 'A', 'B'...
-
-            return (
-              <MapMarker
-                key={index}
-                position={coord}
-                clickable={true}
-                title={title}
-              />
-            );
-          })}
+          {routeCoords.map((coord, index) => (
+            <MapMarker
+              key={index}
+              position={{ lat: coord.lat, lng: coord.lng }}
+              clickable={true}
+              title={coord.title}
+              onClick={() =>
+                setOpenMarkerIndex((prev) => (prev === index ? null : index))
+              }
+            >
+              {openMarkerIndex === index && (
+                <MarkerContainer>
+                  <p>{coord.title}</p>
+                  <img
+                    alt="close"
+                    width="14px"
+                    height="13px"
+                    src="https://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"
+                    onClick={() => setOpenMarkerIndex(null)}
+                  />
+                </MarkerContainer>
+              )}
+            </MapMarker>
+          ))}
         </Map>
       ) : (
         <p>loading...</p>
@@ -124,4 +130,13 @@ export const MapView = () => {
 const MapContainer = styled.div`
   width: 700px;
   height: 500px;
+`;
+
+const MarkerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  gap: 10px;
+  background: lightpink;
 `;

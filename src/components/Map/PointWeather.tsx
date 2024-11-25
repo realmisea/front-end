@@ -61,7 +61,7 @@ export const PointWeather = () => {
   const rain =
     forecast.find((item) => item.category === 'RN1')?.fcstValue === '강수없음'
       ? '없음'
-      : `${forecast.find((item) => item.category === 'RN1')?.fcstValue}mm` ||
+      : `${forecast.find((item) => item.category === 'RN1')?.fcstValue}` ||
         'N/A';
 
   return (
