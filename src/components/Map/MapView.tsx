@@ -3,27 +3,47 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useEffect, useState } from 'react';
 import { getRegionName } from '@utils/getUtils.ts';
+import { createRoute } from '@apis/route.ts';
+import { useLocation } from 'react-router-dom';
 
 export const MapView = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const [regionName, setRegionName] = useState<string>('');
+  const [routeData, setRouteData] = useState(null);
+
+  // const [regionName, setRegionName] = useState<string>('');
 
   const handleMapLoad = () => {
     setIsMapLoaded(true);
   };
 
-  useEffect(() => {
-    if (isMapLoaded) {
-      const lat = 37.506320759000715;
-      const lng = 127.05368251210247;
+  const location = useLocation();
+  console.log(location);
+  const { start, end } = location.state;
 
-      getRegionName(lat, lng)
-        .then((name) => {
-          setRegionName(name);
-        })
-        .catch((error) => console.error(error));
-    }
-  }, [isMapLoaded]);
+  useEffect(() => {
+    const startPoint = { latitude: start.lat, longitude: start.lng };
+    const endPoint = { latitude: end.lat, longitude: end.lng };
+
+    createRoute(startPoint, endPoint)
+      .then((data) => {
+        setRouteData(data);
+        // console.log(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  // useEffect(() => {
+  //   if (isMapLoaded) {
+  //     const lat = 37.506320759000715;
+  //     const lng = 127.05368251210247;
+  //
+  //     getRegionName(lat, lng)
+  //       .then((name) => {
+  //         setRegionName(name);
+  //       })
+  //       .catch((error) => console.error(error));
+  //   }
+  // }, [isMapLoaded]);
   // console.log(regionName);
 
   return (

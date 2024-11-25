@@ -19,13 +19,8 @@ export const PointWeather = () => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [routeData, setRouteData] = useState(null);
 
   const { forecast, loadForecast } = useForecastStore();
-
-  const location = useLocation();
-  console.log(location);
-  const { start, end } = location.state;
 
   // 지도에 띄우는 부분
   useEffect(() => {
@@ -37,19 +32,6 @@ export const PointWeather = () => {
     load();
   }, []);
   // console.log(forecast);
-
-  // 출발, 도착지 -> 중간 휴게소 계산
-  useEffect(() => {
-    const startPoint = { latitude: start.lat, longitude: start.lng };
-    const endPoint = { latitude: end.lat, longitude: end.lng };
-
-    createRoute(startPoint, endPoint)
-      .then((data) => {
-        setRouteData(data);
-        // console.log(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
