@@ -11,7 +11,7 @@ export const createRoute = async (
     });
     console.log('출발, 도착 위치: ', start, end);
     console.log(response);
-    return response;
+    return response.data;
   } catch (error) {
     console.error(error);
   }
