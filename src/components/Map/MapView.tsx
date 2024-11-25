@@ -1,22 +1,23 @@
 import styled from 'styled-components';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
-import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useEffect, useState } from 'react';
 import { getRegionName } from '@utils/getUtils.ts';
 import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
+import { useKakaoLoader } from '@hooks/useKakaoLoader.ts';
 
 export const MapView = () => {
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [routeCoords, setRouteCoords] = useState<
     { lat: number; lng: number }[]
   >([]);
 
-  // const [regionName, setRegionName] = useState<string>('');
+  const isLoaded = useKakaoLoader();
 
-  const handleMapLoad = () => {
-    setIsMapLoaded(true);
-  };
+  useEffect(() => {
+    if (isLoaded) {
+      console.log('카카오맵 로드');
+    }
+  }, [isLoaded]);
 
   const location = useLocation();
   console.log(location);
@@ -59,8 +60,7 @@ export const MapView = () => {
 
   return (
     <MapContainer>
-      <KakaoMapLoader onLoad={handleMapLoad} />
-      {isMapLoaded ? (
+      {isLoaded ? (
         <Map
           center={routeCoords[0] || { lat: 37.5665, lng: 126.978 }}
           style={{
@@ -108,6 +108,4 @@ export const MapView = () => {
 const MapContainer = styled.div`
   width: 700px;
   height: 500px;
-  position: relative;
-  z-index: 10; // 다른 요소보다 위에 표시
 `;
