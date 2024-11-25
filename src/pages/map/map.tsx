@@ -6,10 +6,21 @@ import styled from 'styled-components';
 import { PointWeather } from '@components/Map/PointWeather.tsx';
 import { MapView } from '@components/Map/MapView.tsx';
 import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export const MapPage = () => {
   const location = useLocation();
   const { start, end } = location.state;
+
+  const [selectedPoint, setSelectedPoint] = useState({
+    title: '',
+    lat: 0,
+    lng: 0
+  });
+
+  useEffect(() => {
+    console.log('받아온ㅇ값1:', selectedPoint);
+  }, [selectedPoint]);
   return (
     <MapContainer>
       <InfoContainer>
@@ -24,9 +35,13 @@ export const MapPage = () => {
             <PlaceInput title={`도착지: ${end.placeName}`} />
           </PlaceContainer>
         </InputContainer>
-        <PointWeather />
+        <PointWeather
+          title={selectedPoint.title}
+          lat={selectedPoint.lat}
+          lng={selectedPoint.lng}
+        />
       </InfoContainer>
-      <MapView />
+      <MapView onMarkerClick={(point) => setSelectedPoint(point)} />
     </MapContainer>
   );
 };

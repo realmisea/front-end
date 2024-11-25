@@ -12,26 +12,28 @@ import Cloud from '@assets/images/weather/cloudy.png';
 import Moon from '@assets/images/weather/moon.png';
 import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
 import CloudNight from '@assets/images/weather/darkness.png';
-import { createRoute } from '@apis/route.ts';
-import { useLocation } from 'react-router-dom';
+import { RouteCoord } from '@components/Map/MapView.tsx';
 
-export const PointWeather = () => {
+export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const { forecast, loadForecast } = useForecastStore();
 
+  console.log('받아온값2:', title, lat, lng);
+
   // 지도에 띄우는 부분
   useEffect(() => {
-    const load = async () => {
+    if (lat && lng) {
       setIsLoading(true);
-      await loadForecast(55, 127); // 좌표 고정
-      setIsLoading(false);
-    };
-    load();
-  }, []);
-  // console.log(forecast);
+      loadForecast(lat, lng).finally(() => setIsLoading(false));
+    }
+  }, [lat, lng, loadForecast]);
+
+  useEffect(() => {
+    console.log('Forecast updated:', forecast); // 상태 확인
+  }, [forecast]);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
@@ -70,7 +72,7 @@ export const PointWeather = () => {
         <LoadingMessage>Loading...</LoadingMessage>
       ) : (
         <>
-          <PlaceName>A 충주 휴게소</PlaceName>
+          <PlaceName>{title}</PlaceName>
           <WeatherBox>
             <WeatherImg src={skyIcon} />
             <WeatherInfo>

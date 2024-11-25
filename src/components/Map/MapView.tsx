@@ -5,13 +5,16 @@ import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
 import { useKakaoLoader } from '@hooks/useKakaoLoader.ts';
 
-type RouteCoord = {
+export interface RouteCoord {
   lat: number;
   lng: number;
   title: string;
-};
+}
 
-export const MapView = () => {
+interface MapViewProps {
+  onMarkerClick: (point: { title: string; lat: number; lng: number }) => void;
+}
+export const MapView = ({ onMarkerClick }: MapViewProps) => {
   const mapRef = useRef<kakao.maps.Map | null>(null); // Map 객체 저장
 
   const [routeCoords, setRouteCoords] = useState<RouteCoord[]>([]);
@@ -101,9 +104,10 @@ export const MapView = () => {
               position={{ lat: coord.lat, lng: coord.lng }}
               clickable={true}
               title={coord.title}
-              onClick={() =>
-                setOpenMarkerIndex((prev) => (prev === index ? null : index))
-              }
+              onClick={() => {
+                setOpenMarkerIndex((prev) => (prev === index ? null : index));
+                onMarkerClick(coord);
+              }}
             >
               {openMarkerIndex === index && (
                 <MarkerContainer>
