@@ -36,3 +36,13 @@ export const useKakaoLoader = (): boolean => {
 
   return isLoaded;
 };
+
+//
+// import { useKakaoLoader as useKakaoLoaderOrigin } from 'react-kakao-maps-sdk';
+//
+// export function useKakaoLoader() {
+//   useKakaoLoaderOrigin({
+//     appkey: import.meta.env.VITE_JAVASCRIPT_APP_KEY as string,
+//     libraries: ['clusterer', 'drawing', 'services']
+//   });
+// }

@@ -1,15 +1,21 @@
 import styled from 'styled-components';
 import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getRegionName } from '@utils/getUtils.ts';
 import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
 import { useKakaoLoader } from '@hooks/useKakaoLoader.ts';
 
 export const MapView = () => {
+  const mapRef = useRef<kakao.maps.Map | null>(null); // Map 객체 저장
+
   const [routeCoords, setRouteCoords] = useState<
     { lat: number; lng: number }[]
   >([]);
+  const [center, setCenter] = useState({
+    lat: 37.22343906361677,
+    lng: 127.18729793101929
+  });
 
   const isLoaded = useKakaoLoader();
 
@@ -58,17 +64,27 @@ export const MapView = () => {
   // }, [isMapLoaded]);
   // console.log(regionName);
 
+  useEffect(() => {
+    if (mapRef.current && routeCoords.length > 0) {
+      const bounds = new window.kakao.maps.LatLngBounds();
+      routeCoords.forEach((coord) =>
+        bounds.extend(new window.kakao.maps.LatLng(coord.lat, coord.lng))
+      );
+      mapRef.current.setBounds(bounds); // 경로를 한눈에 보이도록 중심과 줌 설정
+    }
+  }, [routeCoords]);
+
   return (
     <MapContainer>
       {isLoaded ? (
         <Map
-          center={routeCoords[0] || { lat: 37.5665, lng: 126.978 }}
-          style={{
-            width: '100%',
-            height: '100%'
-          }}
+          center={center}
+          style={{ width: '100%', height: '100%' }}
           level={3}
           draggable={true}
+          onCreate={(map) => {
+            mapRef.current = map;
+          }}
         >
           {/* 경로 표시 */}
           {routeCoords.length > 1 && (
