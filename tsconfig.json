@@ -21,6 +21,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
+    "types": [
+      "kakao.maps.d.ts"
+    ],
     "paths": {
       "@components/*": ["src/components/*"],
       "@apis/*": ["src/apis/*"],
