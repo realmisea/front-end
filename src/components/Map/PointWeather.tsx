@@ -21,19 +21,12 @@ export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
 
   const { forecast, loadForecast } = useForecastStore();
 
-  console.log('받아온값2:', title, lat, lng);
-
-  // 지도에 띄우는 부분
   useEffect(() => {
     if (lat && lng) {
       setIsLoading(true);
       loadForecast(lat, lng).finally(() => setIsLoading(false));
     }
   }, [lat, lng, loadForecast]);
-
-  useEffect(() => {
-    console.log('Forecast updated:', forecast); // 상태 확인
-  }, [forecast]);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);

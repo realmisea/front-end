@@ -14,7 +14,6 @@ export const useForecastStore = create<ForecastState>((set) => ({
       const roundedNx = Math.round(nx);
       const roundedNy = Math.round(ny);
 
-      console.log('변환된 좌표:', { roundedNx, roundedNy });
       const data = await fetchWeatherData(roundedNx, roundedNy);
       set({ forecast: data });
     } catch (error) {

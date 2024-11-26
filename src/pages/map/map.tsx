@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { PointWeather } from '@components/Map/PointWeather.tsx';
 import { MapView } from '@components/Map/MapView.tsx';
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const MapPage = () => {
   const location = useLocation();
@@ -18,9 +18,6 @@ export const MapPage = () => {
     lng: end.lng
   });
 
-  useEffect(() => {
-    console.log('받아온ㅇ값1:', selectedPoint);
-  }, [selectedPoint]);
   return (
     <MapContainer>
       <InfoContainer>

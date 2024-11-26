@@ -33,7 +33,7 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   }, [isLoaded]);
 
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   const { start, end } = location.state;
 
   useEffect(() => {
@@ -56,11 +56,9 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           { lat: end.lat, lng: end.lng, title: `${end.placeName} (도착지)` }
         ];
         setRouteCoords(coords);
-        // console.log(data);
       })
       .catch((error) => console.error(error));
   }, []);
-  console.log(routeCoords);
 
   useEffect(() => {
     if (mapRef.current && routeCoords.length > 0) {
@@ -72,10 +70,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
       });
       mapRef.current.setBounds(bounds);
     }
-  }, [routeCoords]);
-
-  useEffect(() => {
-    console.log(routeCoords);
   }, [routeCoords]);
 
   return (
