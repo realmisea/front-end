@@ -13,9 +13,9 @@ export const MapPage = () => {
   const { start, end } = location.state;
 
   const [selectedPoint, setSelectedPoint] = useState({
-    title: '',
-    lat: 0,
-    lng: 0
+    title: `${end.placeName} (도착지)`,
+    lat: end.lat,
+    lng: end.lng
   });
 
   useEffect(() => {

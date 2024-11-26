@@ -43,13 +43,17 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
     createRoute(startPoint, endPoint)
       .then((data) => {
         const coords = [
-          { lat: start.lat, lng: start.lng, title: '출발' },
+          {
+            lat: start.lat,
+            lng: start.lng,
+            title: `${start.placeName} (출발지)`
+          },
           ...data.intermediatePoints.map((point: any, index: number) => ({
             lat: point.restArea.coordinates.latitude,
             lng: point.restArea.coordinates.longitude,
             title: point.restArea.name
           })),
-          { lat: end.lat, lng: end.lng, title: '도착' }
+          { lat: end.lat, lng: end.lng, title: `${end.placeName} (도착지)` }
         ];
         setRouteCoords(coords);
         // console.log(data);
