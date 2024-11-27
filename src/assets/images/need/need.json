@@ -8,6 +8,9 @@
       "image": "/src/assets/images/need/sun-cream.svg",
       "message": "기온이 높은 날입니다. 썬크림을 챙기세요!"
     },
+    "cold": {
+      "message": "기온이 낮은 날입니다."
+    },
     "dust": {
       "image": "/src/assets/images/need/mask.png",
       "message": "대기질이 좋지 않아요. 마스크를 챙기세요!"
