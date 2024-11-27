@@ -24,6 +24,8 @@ export const MainPage = () => {
   } | null>(null);
   const [startHistory, setStartHistory] = useState<string[]>([]);
   const [endHistory, setEndHistory] = useState<string[]>([]);
+  const [showStartHistory, setShowStartHistory] = useState(false);
+  const [showEndHistory, setShowEndHistory] = useState(false);
 
   const navigate = useNavigate();
 
@@ -128,6 +130,26 @@ export const MainPage = () => {
     handleEndSearch(); // 해당 기록으로 검색 실행
   };
 
+  // 출발지 기록 컨트롤
+  const handleStartMouseEnter = () => {
+    if (!startInput) {
+      setShowStartHistory(true);
+    }
+  };
+  const handleStartMouseLeave = () => {
+    setShowStartHistory(false);
+  };
+
+  // 도착지 기록 컨트롤
+  const handleEndMouseEnter = () => {
+    if (!endInput) {
+      setShowEndHistory(true);
+    }
+  };
+  const handleEndMouseLeave = () => {
+    setShowEndHistory(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = () => {
       setStartResults([]);
@@ -155,7 +177,10 @@ export const MainPage = () => {
       <KakaoMapLoader onLoad={handleMapLoad} />
       <Title>Wayther</Title>
       <InputContainer>
-        <InputWrapper>
+        <InputWrapper
+          onMouseEnter={handleStartMouseEnter}
+          onMouseLeave={handleStartMouseLeave}
+        >
           <LabelText>출발지: </LabelText>
           <Input
             value={startInput}
@@ -177,7 +202,7 @@ export const MainPage = () => {
               ))}
             </ResultsContainer>
           )}
-          {startHistory.length > 0 && (
+          {showStartHistory && startHistory.length > 0 && !startInput && (
             <HistoryContainer>
               {startHistory.map((query, index) => (
                 <HistoryItem
@@ -191,7 +216,10 @@ export const MainPage = () => {
           )}
         </InputWrapper>
 
-        <InputWrapper>
+        <InputWrapper
+          onMouseEnter={handleEndMouseEnter}
+          onMouseLeave={handleEndMouseLeave}
+        >
           <LabelText>도착지: </LabelText>
           <Input
             value={endInput}
@@ -213,7 +241,7 @@ export const MainPage = () => {
               ))}
             </ResultsContainer>
           )}
-          {endHistory.length > 0 && (
+          {showEndHistory && endHistory.length > 0 && !endInput && (
             <HistoryContainer>
               {endHistory.map((query, index) => (
                 <HistoryItem
@@ -322,6 +350,7 @@ const HistoryContainer = styled.div`
   max-height: 150px;
   overflow-y: auto;
   z-index: 9;
+  border: 1px solid #ccc; /* 테두리 추가 */
 `;
 
 const HistoryItem = styled.div`
