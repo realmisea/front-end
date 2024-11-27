@@ -56,7 +56,7 @@ export const MainPage = () => {
   // 출발지 선택
   const handleStartSelect = (place: Place) => {
     setStartPlace(place.place_name);
-    // setStartInput(place.place_name);
+    setStartInput(place.place_name);
     setSelectedStartCoords({
       lat: parseFloat(place.y),
       lng: parseFloat(place.x)
