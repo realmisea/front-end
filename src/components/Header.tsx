@@ -1,11 +1,18 @@
 import styled from 'styled-components';
 import HomeIcon from '@assets/images/home.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
       <HeaderTitle>Wayther</HeaderTitle>
-      <Button src={HomeIcon} />
+      <Button
+        src={HomeIcon}
+        onClick={() => {
+          navigate(`/`);
+        }}
+      />
     </HeaderContainer>
   );
 };

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import SearchIcon from '@assets/images/map/search.svg';
 
 interface PlaceInputProps {
   title: string;
@@ -10,7 +9,6 @@ export const PlaceInput = ({ title }: PlaceInputProps) => {
   return (
     <InputContainer>
       <InputText>{title}</InputText>
-      <SearchImg src={SearchIcon} />
     </InputContainer>
   );
 };

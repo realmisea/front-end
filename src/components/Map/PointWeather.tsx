@@ -12,39 +12,21 @@ import Cloud from '@assets/images/weather/cloudy.png';
 import Moon from '@assets/images/weather/moon.png';
 import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
 import CloudNight from '@assets/images/weather/darkness.png';
-import { createRoute } from '@apis/route.ts';
+import { RouteCoord } from '@components/Map/MapView.tsx';
 
-export const PointWeather = () => {
+export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [routeData, setRouteData] = useState(null);
 
   const { forecast, loadForecast } = useForecastStore();
 
-  // 지도에 띄우는 부분
   useEffect(() => {
-    const load = async () => {
+    if (lat && lng) {
       setIsLoading(true);
-      await loadForecast(55, 127); // 좌표 고정
-      setIsLoading(false);
-    };
-    load();
-  }, []);
-  // console.log(forecast);
-
-  // 출발, 도착지 -> 중간 휴게소 계산
-  useEffect(() => {
-    const start = { latitude: 37, longitude: 127 }; // 예시 출발 좌표 (서울)
-    const end = { latitude: 35, longitude: 129 }; // 예시 도착 좌표 (부산)
-
-    createRoute(start, end)
-      .then((data) => {
-        setRouteData(data);
-        // console.log(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+      loadForecast(lat, lng).finally(() => setIsLoading(false));
+    }
+  }, [lat, lng, loadForecast]);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
@@ -74,7 +56,7 @@ export const PointWeather = () => {
   const rain =
     forecast.find((item) => item.category === 'RN1')?.fcstValue === '강수없음'
       ? '없음'
-      : `${forecast.find((item) => item.category === 'RN1')?.fcstValue}mm` ||
+      : `${forecast.find((item) => item.category === 'RN1')?.fcstValue}` ||
         'N/A';
 
   return (
@@ -83,7 +65,7 @@ export const PointWeather = () => {
         <LoadingMessage>Loading...</LoadingMessage>
       ) : (
         <>
-          <PlaceName>A 충주 휴게소</PlaceName>
+          <PlaceName>{title}</PlaceName>
           <WeatherBox>
             <WeatherImg src={skyIcon} />
             <WeatherInfo>

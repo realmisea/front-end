@@ -21,12 +21,16 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
+    "types": [
+      "kakao.maps.d.ts"
+    ],
     "paths": {
       "@components/*": ["src/components/*"],
       "@apis/*": ["src/apis/*"],
       "@pages/*": ["src/pages/*"],
       "@types/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
     },
     "allowSyntheticDefaultImports": true
   },
