@@ -22,8 +22,41 @@ export const MainPage = () => {
     lat: number;
     lng: number;
   } | null>(null);
+  const [startHistory, setStartHistory] = useState<string[]>([]);
+  const [endHistory, setEndHistory] = useState<string[]>([]);
 
   const navigate = useNavigate();
+
+  // 검색 기록 업데이트 함수 (출발지)
+  const updateStartHistory = (query: string) => {
+    setStartHistory((prev) => {
+      const updatedHistory = Array.from(new Set([query, ...prev])); // 중복 제거
+      localStorage.setItem('startHistory', JSON.stringify(updatedHistory)); // localStorage에 저장
+      return updatedHistory;
+    });
+  };
+
+  // 검색 기록 업데이트 함수 (도착지)
+  const updateEndHistory = (query: string) => {
+    setEndHistory((prev) => {
+      const updatedHistory = Array.from(new Set([query, ...prev])); // 중복 제거
+      localStorage.setItem('endHistory', JSON.stringify(updatedHistory)); // localStorage에 저장
+      return updatedHistory;
+    });
+  };
+
+  // 컴포넌트가 마운트될 때 기존 기록 불러오기
+  useEffect(() => {
+    const storedStartHistory = localStorage.getItem('startHistory');
+    if (storedStartHistory) {
+      setStartHistory(JSON.parse(storedStartHistory));
+    }
+
+    const storedEndHistory = localStorage.getItem('endHistory');
+    if (storedEndHistory) {
+      setEndHistory(JSON.parse(storedEndHistory));
+    }
+  }, []);
 
   const handleMapLoad = () => {
     setIsMapLoaded(true);
@@ -32,6 +65,7 @@ export const MainPage = () => {
   // 출발지 검색
   const handleStartSearch = async () => {
     if (!isMapLoaded || !startInput.trim()) return;
+    updateStartHistory(startInput);
     try {
       const results = await searchPlace(startInput);
       console.log('출발지 검색 결과: ', results);
@@ -44,6 +78,7 @@ export const MainPage = () => {
   // 도착지 검색
   const handleEndSearch = async () => {
     if (!isMapLoaded || !endInput.trim()) return;
+    updateEndHistory(endInput);
     try {
       const results = await searchPlace(endInput);
       console.log('도착지 검색 결과: ', results);
@@ -81,6 +116,18 @@ export const MainPage = () => {
     }
   };
 
+  // 출발지 검색 기록
+  const handleStartHistoryClick = (query: string) => {
+    setStartInput(query); // 선택한 기록을 인풋창에 반영
+    handleStartSearch(); // 해당 기록으로 검색 실행
+  };
+
+  // 도착지 검색 기록
+  const handleEndHistoryClick = (query: string) => {
+    setEndInput(query); // 선택한 기록을 인풋창에 반영
+    handleEndSearch(); // 해당 기록으로 검색 실행
+  };
+
   useEffect(() => {
     const handleClickOutside = () => {
       setStartResults([]);
@@ -102,11 +149,6 @@ export const MainPage = () => {
       });
     }
   }, [selectedStartCoords, selectedEndCoords, navigate, startPlace, endPlace]);
-
-  useEffect(() => {
-    console.log(startPlace);
-    console.log(endPlace);
-  }, [startPlace, endPlace]);
 
   return (
     <MainContainer>
@@ -135,6 +177,18 @@ export const MainPage = () => {
               ))}
             </ResultsContainer>
           )}
+          {startHistory.length > 0 && (
+            <HistoryContainer>
+              {startHistory.map((query, index) => (
+                <HistoryItem
+                  key={index}
+                  onClick={() => handleStartHistoryClick(query)}
+                >
+                  {query}
+                </HistoryItem>
+              ))}
+            </HistoryContainer>
+          )}
         </InputWrapper>
 
         <InputWrapper>
@@ -158,6 +212,18 @@ export const MainPage = () => {
                 </ResultItem>
               ))}
             </ResultsContainer>
+          )}
+          {endHistory.length > 0 && (
+            <HistoryContainer>
+              {endHistory.map((query, index) => (
+                <HistoryItem
+                  key={index}
+                  onClick={() => handleEndHistoryClick(query)}
+                >
+                  {query}
+                </HistoryItem>
+              ))}
+            </HistoryContainer>
           )}
         </InputWrapper>
       </InputContainer>
@@ -245,4 +311,23 @@ const SearchButton = styled.button`
 
 const CloudImg = styled.img`
   margin-bottom: -190px; // 여기 마진이 왜생기지?
+`;
+
+const HistoryContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #f8f8f8;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 9;
+`;
+
+const HistoryItem = styled.div`
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background: #e6e6e6;
+  }
 `;
