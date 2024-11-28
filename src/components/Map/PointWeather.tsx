@@ -110,6 +110,7 @@ const Container = styled.div`
   border: 4px solid ${({ theme }) => theme.colors.yellow};
   gap: 10px;
   margin-left: 25px;
+  white-space: nowrap;
 `;
 
 const LoadingMessage = styled.p`
@@ -126,6 +127,9 @@ const PlaceName = styled.h1`
   font-family:
     Noto Sans KR,
     serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 `;
 
 const WeatherBox = styled.div`
@@ -134,7 +138,6 @@ const WeatherBox = styled.div`
   align-items: center;
   width: 100%;
   height: 150px;
-  //background: lightpink;
   gap: 30px;
 `;
 
@@ -169,14 +172,9 @@ const BtnBox = styled.div`
 
 const Btn = styled.img`
   width: 110px;
-  //height: 100px;
   cursor: pointer;
 `;
 
-const SuggestBtn = styled(Btn)`
-  //background: cornflowerblue;
-`;
+const SuggestBtn = styled(Btn)``;
 
-const DetailBtn = styled(Btn)`
-  //background: darkseagreen;
-`;
+const DetailBtn = styled(Btn)``;
