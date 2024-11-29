@@ -5,6 +5,7 @@ import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useEffect, useState } from 'react';
 import { Place, searchPlace } from '@utils/KakaoMapService.ts';
 import { useNavigate } from 'react-router-dom';
+import { KeyboardEvent } from 'react';
 
 export const MainPage = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
@@ -112,7 +113,10 @@ export const MainPage = () => {
     console.log(endPlace);
   };
 
-  const handleKeyDown = (e: KeyboardEvent, isStart: boolean) => {
+  const handleKeyDown = (
+    e: KeyboardEvent<HTMLInputElement>,
+    isStart: boolean
+  ) => {
     if (e.key === 'Enter') {
       isStart ? handleStartSearch() : handleEndSearch();
     }
