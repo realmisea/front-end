@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, Polyline } from 'react-kakao-maps-sdk';
 import { useEffect, useRef, useState } from 'react';
 import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
@@ -22,8 +22,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
     lat: 37.22343906361677,
     lng: 127.18729793101929
   });
-  const [openMarkerIndex, setOpenMarkerIndex] = useState<number | null>(null); // 열려 있는 마커의 index 저장
-
   const isLoaded = useKakaoLoader();
 
   useEffect(() => {
@@ -33,7 +31,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   }, [isLoaded]);
 
   const location = useLocation();
-  // console.log(location);
   const { start, end } = location.state;
 
   useEffect(() => {
@@ -97,29 +94,16 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
           {/* 마커 */}
           {routeCoords.map((coord, index) => (
-            <MapMarker
+            <CustomOverlayMap
               key={index}
               position={{ lat: coord.lat, lng: coord.lng }}
               clickable={true}
-              title={coord.title}
-              onClick={() => {
-                setOpenMarkerIndex((prev) => (prev === index ? null : index));
-                onMarkerClick(coord);
-              }}
+              yAnchor={1} // 말풍선 위치
             >
-              {openMarkerIndex === index && (
-                <MarkerContainer>
-                  <p>{coord.title}</p>
-                  <img
-                    alt="close"
-                    width="14px"
-                    height="13px"
-                    src="https://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"
-                    onClick={() => setOpenMarkerIndex(null)}
-                  />
-                </MarkerContainer>
-              )}
-            </MapMarker>
+              <CustomMarkerContainer onClick={() => onMarkerClick(coord)}>
+                <p>{coord.title}</p>
+              </CustomMarkerContainer>
+            </CustomOverlayMap>
           ))}
         </Map>
       ) : (
@@ -134,11 +118,18 @@ const MapContainer = styled.div`
   height: 500px;
 `;
 
-const MarkerContainer = styled.div`
+const CustomMarkerContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  width: 70px;
-  gap: 10px;
-  background: lightpink;
+  justify-content: center;
+  background: white;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
 `;
