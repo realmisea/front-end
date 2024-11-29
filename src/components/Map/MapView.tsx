@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { Map, MapMarker, Polyline } from 'react-kakao-maps-sdk';
+import { CustomOverlayMap, Map, Polyline } from 'react-kakao-maps-sdk';
 import { useEffect, useRef, useState } from 'react';
 import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
 import { useKakaoLoader } from '@hooks/useKakaoLoader.ts';
+import { LoadingMessage } from '@components/Map/PointWeather.tsx';
 
 export interface RouteCoord {
   lat: number;
@@ -18,37 +19,38 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   const mapRef = useRef<kakao.maps.Map | null>(null); // Map 객체 저장
 
   const [routeCoords, setRouteCoords] = useState<RouteCoord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [center, setCenter] = useState({
     lat: 37.22343906361677,
     lng: 127.18729793101929
   });
-  const [openMarkerIndex, setOpenMarkerIndex] = useState<number | null>(null); // 열려 있는 마커의 index 저장
-
-  const isLoaded = useKakaoLoader();
+  const isMapLoaded = useKakaoLoader();
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isMapLoaded) {
       console.log('카카오맵 로드');
     }
-  }, [isLoaded]);
+  }, [isMapLoaded]);
 
   const location = useLocation();
-  // console.log(location);
   const { start, end } = location.state;
 
   useEffect(() => {
-    const startPoint = { latitude: start.lat, longitude: start.lng };
-    const endPoint = { latitude: end.lat, longitude: end.lng };
+    const fetchRouteData = async () => {
+      setIsLoading(true);
+      try {
+        const startPoint = { latitude: start.lat, longitude: start.lng };
+        const endPoint = { latitude: end.lat, longitude: end.lng };
 
-    createRoute(startPoint, endPoint)
-      .then((data) => {
+        const data = await createRoute(startPoint, endPoint);
+
         const coords = [
           {
             lat: start.lat,
             lng: start.lng,
             title: `${start.placeName} (출발지)`
           },
-          ...data.intermediatePoints.map((point: any, index: number) => ({
+          ...data.intermediatePoints.map((point: any) => ({
             lat: point.restArea.coordinates.latitude,
             lng: point.restArea.coordinates.longitude,
             title: point.restArea.name
@@ -56,9 +58,14 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           { lat: end.lat, lng: end.lng, title: `${end.placeName} (도착지)` }
         ];
         setRouteCoords(coords);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchRouteData();
+  }, [start, end]);
 
   useEffect(() => {
     if (mapRef.current && routeCoords.length > 0) {
@@ -74,56 +81,47 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   return (
     <MapContainer>
-      {isLoaded ? (
-        <Map
-          center={center}
-          style={{ width: '100%', height: '100%' }}
-          level={3}
-          draggable={true}
-          onCreate={(map) => {
-            mapRef.current = map;
-          }}
-        >
-          {/* 경로 표시 */}
-          {routeCoords.length > 1 && (
-            <Polyline
-              path={routeCoords}
-              strokeWeight={10}
-              strokeColor="#FF0000"
-              strokeOpacity={0.8}
-              strokeStyle="solid"
-            />
-          )}
+      {isMapLoaded ? (
+        isLoading ? (
+          <LoadingMessage>Loading...</LoadingMessage>
+        ) : (
+          <Map
+            center={center}
+            style={{ width: '100%', height: '100%' }}
+            level={3}
+            draggable={true}
+            onCreate={(map) => {
+              mapRef.current = map;
+            }}
+          >
+            {/* 경로 표시 */}
+            {routeCoords.length > 1 && (
+              <Polyline
+                path={routeCoords}
+                strokeWeight={10}
+                strokeColor="#FF0000"
+                strokeOpacity={0.8}
+                strokeStyle="solid"
+              />
+            )}
 
-          {/* 마커 */}
-          {routeCoords.map((coord, index) => (
-            <MapMarker
-              key={index}
-              position={{ lat: coord.lat, lng: coord.lng }}
-              clickable={true}
-              title={coord.title}
-              onClick={() => {
-                setOpenMarkerIndex((prev) => (prev === index ? null : index));
-                onMarkerClick(coord);
-              }}
-            >
-              {openMarkerIndex === index && (
-                <MarkerContainer>
+            {/* 마커 */}
+            {routeCoords.map((coord, index) => (
+              <CustomOverlayMap
+                key={index}
+                position={{ lat: coord.lat, lng: coord.lng }}
+                clickable={true}
+                yAnchor={1} // 말풍선 위치
+              >
+                <CustomMarkerContainer onClick={() => onMarkerClick(coord)}>
                   <p>{coord.title}</p>
-                  <img
-                    alt="close"
-                    width="14px"
-                    height="13px"
-                    src="https://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"
-                    onClick={() => setOpenMarkerIndex(null)}
-                  />
-                </MarkerContainer>
-              )}
-            </MapMarker>
-          ))}
-        </Map>
+                </CustomMarkerContainer>
+              </CustomOverlayMap>
+            ))}
+          </Map>
+        )
       ) : (
-        <p>loading...</p>
+        <p>Loading KaKao Map...</p>
       )}
     </MapContainer>
   );
@@ -134,11 +132,18 @@ const MapContainer = styled.div`
   height: 500px;
 `;
 
-const MarkerContainer = styled.div`
+const CustomMarkerContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  width: 70px;
-  gap: 10px;
-  background: lightpink;
+  justify-content: center;
+  background: white;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
 `;
