@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { HourWeatherProps, TempBoxProps } from '@types/weather.ts';
+import { HourWeatherProps, TempBoxProps } from '../types/weather.ts';
 
 export const HourWeather = ({
   time,
