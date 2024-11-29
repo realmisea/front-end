@@ -20,10 +20,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   const [routeCoords, setRouteCoords] = useState<RouteCoord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [center, setCenter] = useState({
-    lat: 37.22343906361677,
-    lng: 127.18729793101929
-  });
   const isMapLoaded = useKakaoLoader();
 
   useEffect(() => {
@@ -86,7 +82,7 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           <LoadingMessage>Loading...</LoadingMessage>
         ) : (
           <Map
-            center={center}
+            center={{ lat: 37.22343906361677, lng: 127.18729793101929 }}
             style={{ width: '100%', height: '100%' }}
             level={3}
             draggable={true}
