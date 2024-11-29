@@ -113,7 +113,7 @@ const Container = styled.div`
   white-space: nowrap;
 `;
 
-const LoadingMessage = styled.p`
+export const LoadingMessage = styled.p`
   font-size: 30px;
   font-weight: bold;
   font-family:

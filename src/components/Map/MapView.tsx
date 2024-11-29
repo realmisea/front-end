@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createRoute } from '@apis/route.ts';
 import { useLocation } from 'react-router-dom';
 import { useKakaoLoader } from '@hooks/useKakaoLoader.ts';
+import { LoadingMessage } from '@components/Map/PointWeather.tsx';
 
 export interface RouteCoord {
   lat: number;
@@ -18,34 +19,38 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   const mapRef = useRef<kakao.maps.Map | null>(null); // Map 객체 저장
 
   const [routeCoords, setRouteCoords] = useState<RouteCoord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [center, setCenter] = useState({
     lat: 37.22343906361677,
     lng: 127.18729793101929
   });
-  const isLoaded = useKakaoLoader();
+  const isMapLoaded = useKakaoLoader();
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isMapLoaded) {
       console.log('카카오맵 로드');
     }
-  }, [isLoaded]);
+  }, [isMapLoaded]);
 
   const location = useLocation();
   const { start, end } = location.state;
 
   useEffect(() => {
-    const startPoint = { latitude: start.lat, longitude: start.lng };
-    const endPoint = { latitude: end.lat, longitude: end.lng };
+    const fetchRouteData = async () => {
+      setIsLoading(true);
+      try {
+        const startPoint = { latitude: start.lat, longitude: start.lng };
+        const endPoint = { latitude: end.lat, longitude: end.lng };
 
-    createRoute(startPoint, endPoint)
-      .then((data) => {
+        const data = await createRoute(startPoint, endPoint);
+
         const coords = [
           {
             lat: start.lat,
             lng: start.lng,
             title: `${start.placeName} (출발지)`
           },
-          ...data.intermediatePoints.map((point: any, index: number) => ({
+          ...data.intermediatePoints.map((point: any) => ({
             lat: point.restArea.coordinates.latitude,
             lng: point.restArea.coordinates.longitude,
             title: point.restArea.name
@@ -53,9 +58,14 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           { lat: end.lat, lng: end.lng, title: `${end.placeName} (도착지)` }
         ];
         setRouteCoords(coords);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchRouteData();
+  }, [start, end]);
 
   useEffect(() => {
     if (mapRef.current && routeCoords.length > 0) {
@@ -71,43 +81,47 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   return (
     <MapContainer>
-      {isLoaded ? (
-        <Map
-          center={center}
-          style={{ width: '100%', height: '100%' }}
-          level={3}
-          draggable={true}
-          onCreate={(map) => {
-            mapRef.current = map;
-          }}
-        >
-          {/* 경로 표시 */}
-          {routeCoords.length > 1 && (
-            <Polyline
-              path={routeCoords}
-              strokeWeight={10}
-              strokeColor="#FF0000"
-              strokeOpacity={0.8}
-              strokeStyle="solid"
-            />
-          )}
+      {isMapLoaded ? (
+        isLoading ? (
+          <LoadingMessage>Loading...</LoadingMessage>
+        ) : (
+          <Map
+            center={center}
+            style={{ width: '100%', height: '100%' }}
+            level={3}
+            draggable={true}
+            onCreate={(map) => {
+              mapRef.current = map;
+            }}
+          >
+            {/* 경로 표시 */}
+            {routeCoords.length > 1 && (
+              <Polyline
+                path={routeCoords}
+                strokeWeight={10}
+                strokeColor="#FF0000"
+                strokeOpacity={0.8}
+                strokeStyle="solid"
+              />
+            )}
 
-          {/* 마커 */}
-          {routeCoords.map((coord, index) => (
-            <CustomOverlayMap
-              key={index}
-              position={{ lat: coord.lat, lng: coord.lng }}
-              clickable={true}
-              yAnchor={1} // 말풍선 위치
-            >
-              <CustomMarkerContainer onClick={() => onMarkerClick(coord)}>
-                <p>{coord.title}</p>
-              </CustomMarkerContainer>
-            </CustomOverlayMap>
-          ))}
-        </Map>
+            {/* 마커 */}
+            {routeCoords.map((coord, index) => (
+              <CustomOverlayMap
+                key={index}
+                position={{ lat: coord.lat, lng: coord.lng }}
+                clickable={true}
+                yAnchor={1} // 말풍선 위치
+              >
+                <CustomMarkerContainer onClick={() => onMarkerClick(coord)}>
+                  <p>{coord.title}</p>
+                </CustomMarkerContainer>
+              </CustomOverlayMap>
+            ))}
+          </Map>
+        )
       ) : (
-        <p>loading...</p>
+        <p>Loading KaKao Map...</p>
       )}
     </MapContainer>
   );
