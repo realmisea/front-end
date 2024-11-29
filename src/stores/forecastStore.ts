@@ -1,4 +1,4 @@
-import { ForecastProps } from '@types/weather.ts';
+import { ForecastProps } from '../types/weather.ts';
 import { create } from 'zustand';
 import { fetchWeatherData } from '@apis/weather.ts';
 
