@@ -5,7 +5,6 @@ interface PlaceInputProps {
 }
 
 export const PlaceInput = ({ title }: PlaceInputProps) => {
-  // console.log(title);
   return (
     <InputContainer>
       <InputText>{title}</InputText>
@@ -26,9 +25,4 @@ const InputContainer = styled.div`
 const InputText = styled.p`
   font-size: 24px;
   margin-left: 27px;
-`;
-
-const SearchImg = styled.img`
-  margin-right: 27px;
-  cursor: pointer;
 `;
