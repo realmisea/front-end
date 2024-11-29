@@ -44,13 +44,13 @@ const TempBox = styled.div<TempBoxProps>`
   width: 40px;
   height: 28px;
   background: ${({ temperature }) =>
-    temperature >= 30
+    Number(temperature) >= 30
       ? '#fc4103'
-      : temperature >= 25
+      : Number(temperature) >= 25
         ? '#fcba03'
-        : temperature >= 16
+        : Number(temperature) >= 16
           ? '#fcd303'
-          : temperature >= 6
+          : Number(temperature) >= 6
             ? '#82b2ff'
             : '#c9deff'};
   border-radius: 7px;
