@@ -32,11 +32,26 @@ export const SuggestionModal = ({ onClose }: ModalProps) => {
       const isSunny = tempForecast.some(
         (item) => parseFloat(item.fcstValue) >= 28
       );
+      const isCool = tempForecast.some(
+        (item) =>
+          parseFloat(item.fcstValue) < 10 && parseFloat(item.fcstValue) > 0
+      );
       const isCold = tempForecast.some(
-        (item) => parseFloat(item.fcstValue) <= 8
+        (item) =>
+          parseFloat(item.fcstValue) > -10 && parseFloat(item.fcstValue) <= 0
+      );
+      const isFrost = tempForecast.some(
+        (item) => parseFloat(item.fcstValue) <= -10
+      );
+      const isGood = tempForecast.some(
+        (item) =>
+          parseFloat(item.fcstValue) >= 10 && parseFloat(item.fcstValue) < 28
       );
       if (isSunny) states.push('sunny');
+      if (isCool) states.push('cool');
       if (isCold) states.push('cold');
+      if (isFrost) states.push('frost');
+      if (isGood) states.push('good');
 
       setCurrentStates(states);
     }
