@@ -39,7 +39,7 @@ const getPreviousHour = (): { baseDate: string; baseTime: string } => {
 export const fetchWeatherData = async (nx: number, ny: number) => {
   const { baseDate, baseTime } = getPreviousHour();
 
-  const url = `${import.meta.env.VITE_WEAHTER_BASE_URL}?serviceKey=${import.meta.env.VITE_API_KEY}&pageNo=1&numOfRows=60&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
+  const url = `${import.meta.env.VITE_WEATHER_BASE_URL}?serviceKey=${import.meta.env.VITE_API_KEY}&pageNo=1&numOfRows=60&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
   try {
     const response = await fetch(url);
