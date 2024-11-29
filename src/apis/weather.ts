@@ -1,10 +1,10 @@
-import { Item } from '@types/weather.ts';
+import { Item } from '../types/weather.ts';
 
 /**
  * 현재 시간 기준으로 가장 가까운 정각을 HHMM 형식으로 반환
  * @returns {string} - baseTime (예: "1000")
  */
-const getPreviousHour = (): string => {
+const getPreviousHour = (): { baseDate: string; baseTime: string } => {
   const now = new Date();
 
   // 현재 분 기준으로 30분 이전이면 1시간 전으로 설정
