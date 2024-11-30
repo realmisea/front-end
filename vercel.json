@@ -5,8 +5,8 @@
       "destination": "/"
     },
     {
-      "source": "/api/:path*/",
-      "destination": "https://fierce-jerrilee-realmisea-3853df29.koyeb.app/:path*/"
+      "source": "/api/:path*",
+      "destination": "https://fierce-jerrilee-realmisea-3853df29.koyeb.app/:path*"
     }
   ]
 }
