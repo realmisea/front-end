@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Close from '@assets/images/close-button.svg';
-import NeedData from '@assets/images/need/need.json';
+import NeedData from '@assets/need.json';
 import { useEffect, useState } from 'react';
 import { NeedDataType } from '../types/types.ts';
 import { useForecastStore } from '../stores/forecastStore.ts';
@@ -16,6 +16,7 @@ export const SuggestionModal = ({ onClose }: ModalProps) => {
   useEffect(() => {
     if (forecast.length > 0) {
       const states: string[] = [];
+      let tempState: string = 'good';
 
       const rainForecast = forecast
         .filter((item) => item.category === 'RN1')
@@ -29,29 +30,26 @@ export const SuggestionModal = ({ onClose }: ModalProps) => {
       const tempForecast = forecast
         .filter((item) => item.category === 'T1H')
         .slice(0, 5);
-      const isSunny = tempForecast.some(
-        (item) => parseFloat(item.fcstValue) >= 28
-      );
-      const isCool = tempForecast.some(
-        (item) =>
-          parseFloat(item.fcstValue) < 10 && parseFloat(item.fcstValue) > 0
-      );
-      const isCold = tempForecast.some(
-        (item) =>
-          parseFloat(item.fcstValue) > -10 && parseFloat(item.fcstValue) <= 0
-      );
-      const isFrost = tempForecast.some(
-        (item) => parseFloat(item.fcstValue) <= -10
-      );
-      const isGood = tempForecast.some(
-        (item) =>
-          parseFloat(item.fcstValue) >= 10 && parseFloat(item.fcstValue) < 28
-      );
-      if (isSunny) states.push('sunny');
-      if (isCool) states.push('cool');
-      if (isCold) states.push('cold');
-      if (isFrost) states.push('frost');
-      if (isGood) states.push('good');
+
+      tempForecast.forEach((item) => {
+        const temp = parseFloat(item.fcstValue);
+        if (temp >= 28) tempState = 'sunny';
+        else if (temp <= -10) tempState = 'frost';
+        else if (
+          temp > -10 &&
+          temp <= 0 &&
+          !['sunny', 'frost'].includes(tempState)
+        )
+          tempState = 'cold';
+        else if (
+          temp > 0 &&
+          temp < 10 &&
+          !['sunny', 'frost', 'cold'].includes(tempState)
+        )
+          tempState = 'cool';
+      });
+
+      if (tempState) states.push(tempState);
 
       setCurrentStates(states);
     }
