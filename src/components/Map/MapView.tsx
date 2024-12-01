@@ -69,6 +69,10 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   }, [start, end]);
 
   useEffect(() => {
+    console.log('isMapLoaded:', isMapLoaded);
+    console.log('mapRef.current:', mapRef.current);
+    console.log('routeCoords:', routeCoords);
+
     if (isMapLoaded && mapRef.current && routeCoords.length > 0) {
       const bounds = new kakao.maps.LatLngBounds();
       console.log('bounds1: ', bounds);
@@ -99,7 +103,7 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           <Map
             center={{ lat: start.lat, lng: start.lng }}
             style={{ width: '100%', height: '100%' }}
-            level={3}
+            // level={3}
             draggable={true}
             onCreate={(map) => {
               mapRef.current = map;
