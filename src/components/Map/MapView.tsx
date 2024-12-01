@@ -39,6 +39,11 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
         const endPoint = { latitude: end.lat, longitude: end.lng };
 
         const data = await createRoute(startPoint, endPoint);
+        console.log('루트 응답:', data);
+
+        if (!data.intermediatePoints || data.intermediatePoints.length === 0) {
+          console.warn('데이터가없단다.....');
+        }
 
         const coords = [
           {
@@ -82,7 +87,7 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           <LoadingMessage>Loading...</LoadingMessage>
         ) : (
           <Map
-            center={{ lat: 37.22343906361677, lng: 127.18729793101929 }}
+            center={{ lat: start.lat, lng: start.lng }}
             style={{ width: '100%', height: '100%' }}
             level={3}
             draggable={true}
