@@ -20,6 +20,8 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   const [routeCoords, setRouteCoords] = useState<RouteCoord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMapReady, setIsMapReady] = useState(false);
+
   const isMapLoaded = useKakaoLoader();
 
   useEffect(() => {
@@ -30,6 +32,12 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   const location = useLocation();
   const { start, end } = location.state;
+
+  const handleMapCreate = (map: kakao.maps.Map) => {
+    mapRef.current = map;
+    setIsMapReady(true);
+    console.log('지도 생성시 mapRef 업데이트 !!!!!!');
+  };
 
   useEffect(() => {
     const fetchRouteData = async () => {
@@ -70,29 +78,26 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   useEffect(() => {
     console.log('isMapLoaded:', isMapLoaded);
-    console.log('mapRef.current:', mapRef.current);
+    console.log('내가제일필요한 mapRef.current:', mapRef.current);
     console.log('routeCoords:', routeCoords);
+    console.log('isMapReady', isMapReady);
 
-    if (isMapLoaded && mapRef.current && routeCoords.length > 0) {
+    if (isMapLoaded && isMapReady && routeCoords.length > 0) {
       const bounds = new kakao.maps.LatLngBounds();
       console.log('bounds1: ', bounds);
 
       // 모든 좌표를 bounds에 추가
       routeCoords.forEach((coord) => {
-        if (coord.lat && coord.lng) {
-          const latlng = new kakao.maps.LatLng(coord.lat, coord.lng);
-          bounds.extend(latlng);
-        }
+        bounds.extend(new kakao.maps.LatLng(coord.lat, coord.lng));
       });
 
       // 지도 영역을 경로 전체가 보이도록 설정
-      mapRef.current.setBounds(bounds);
+      mapRef.current?.setBounds(bounds);
       console.log('경로 다 보이니?', bounds);
-      console.log('mapRef: ', mapRef);
     } else {
       console.error('실패다');
     }
-  }, [isMapLoaded, routeCoords]);
+  }, [isMapLoaded, isMapReady, routeCoords]);
 
   return (
     <MapContainer>
@@ -103,11 +108,8 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
           <Map
             center={{ lat: start.lat, lng: start.lng }}
             style={{ width: '100%', height: '100%' }}
-            // level={3}
             draggable={true}
-            onCreate={(map) => {
-              mapRef.current = map;
-            }}
+            onCreate={handleMapCreate}
           >
             {/* 경로 표시 */}
             {routeCoords.length > 1 && (
