@@ -71,6 +71,7 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   useEffect(() => {
     if (isMapLoaded && mapRef.current && routeCoords.length > 0) {
       const bounds = new kakao.maps.LatLngBounds();
+      console.log('bounds1: ', bounds);
 
       // 모든 좌표를 bounds에 추가
       routeCoords.forEach((coord) => {
@@ -82,7 +83,8 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
       // 지도 영역을 경로 전체가 보이도록 설정
       mapRef.current.setBounds(bounds);
-      console.log('경로 다 보이니?');
+      console.log('경로 다 보이니?', bounds);
+      console.log('mapRef: ', mapRef);
     } else {
       console.error('실패다');
     }
