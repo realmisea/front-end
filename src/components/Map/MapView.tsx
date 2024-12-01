@@ -69,16 +69,24 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   }, [start, end]);
 
   useEffect(() => {
-    if (mapRef.current && routeCoords.length > 0) {
-      const bounds = new window.kakao.maps.LatLngBounds();
+    if (isMapLoaded && mapRef.current && routeCoords.length > 0) {
+      const bounds = new kakao.maps.LatLngBounds();
+
+      // 모든 좌표를 bounds에 추가
       routeCoords.forEach((coord) => {
         if (coord.lat && coord.lng) {
-          bounds.extend(new window.kakao.maps.LatLng(coord.lat, coord.lng));
+          const latlng = new kakao.maps.LatLng(coord.lat, coord.lng);
+          bounds.extend(latlng);
         }
       });
+
+      // 지도 영역을 경로 전체가 보이도록 설정
       mapRef.current.setBounds(bounds);
+      console.log('경로 다 보이니?');
+    } else {
+      console.error('실패다');
     }
-  }, [routeCoords]);
+  }, [isMapLoaded, routeCoords]);
 
   return (
     <MapContainer>
