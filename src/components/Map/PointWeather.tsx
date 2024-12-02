@@ -13,20 +13,32 @@ import Moon from '@assets/images/weather/moon.png';
 import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
 import CloudNight from '@assets/images/weather/darkness.png';
 import { RouteCoord } from '@components/Map/MapView.tsx';
+import { getRegionName } from '@utils/getUtils.ts';
 
 export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [regionName, setRegionName] = useState<string>('');
 
   const { forecast, loadForecast } = useForecastStore();
+  console.log('받아온 정보: ', title, lat, lng);
 
   useEffect(() => {
     if (lat && lng) {
       setIsLoading(true);
       loadForecast(lat, lng).finally(() => setIsLoading(false));
+
+      getRegionName(lat, lng)
+        .then((region) => {
+          setRegionName(region);
+        })
+        .catch((error) => {
+          console.error('지역명 받아오기 실패', error);
+        });
     }
   }, [lat, lng, loadForecast]);
+  console.log(regionName);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
