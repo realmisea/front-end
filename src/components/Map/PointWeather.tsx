@@ -14,31 +14,47 @@ import MoonAndCloud from '@assets/images/weather/moon-and-cloud.png';
 import CloudNight from '@assets/images/weather/darkness.png';
 import { RouteCoord } from '@components/Map/MapView.tsx';
 import { getRegionName } from '@utils/getUtils.ts';
+import { processRegionName } from '@utils/processRegionName.ts';
+import { fetchDustGrade } from '@apis/dust.ts';
 
 export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [regionName, setRegionName] = useState<string>('');
+  const [regionName, setRegionName] = useState<string>(''); // 나중에 필요없어지면 지우기
+  const [dust, setDust] = useState<string>('');
 
   const { forecast, loadForecast } = useForecastStore();
   console.log('받아온 정보: ', title, lat, lng);
 
   useEffect(() => {
-    if (lat && lng) {
-      setIsLoading(true);
-      loadForecast(lat, lng).finally(() => setIsLoading(false));
+    const fetchData = async () => {
+      if (lat && lng) {
+        setIsLoading(true); // 로딩 상태 시작
+        try {
+          await loadForecast(lat, lng);
 
-      getRegionName(lat, lng)
-        .then((region) => {
-          setRegionName(region);
-        })
-        .catch((error) => {
-          console.error('지역명 받아오기 실패', error);
-        });
-    }
+          const region = await getRegionName(lat, lng);
+          const processedRegion = processRegionName(region);
+          setRegionName(processedRegion);
+
+          const dustGrade = await fetchDustGrade(processedRegion);
+          setDust(dustGrade);
+
+          console.log('지역명:', processedRegion);
+          console.log('대기질 등급:', dustGrade);
+        } catch (error) {
+          console.error('데이터 로드 실패:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchData();
   }, [lat, lng, loadForecast]);
   console.log(regionName);
+  console.log(dust);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
@@ -83,7 +99,7 @@ export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
             <WeatherInfo>
               <WeatherText>기온 {temperature}°C</WeatherText>
               <WeatherText>강수량 {rain}</WeatherText>
-              <WeatherText>대기질 보통</WeatherText>
+              <WeatherText>대기질 {dust}</WeatherText>
             </WeatherInfo>
           </WeatherBox>
           <BtnBox>
