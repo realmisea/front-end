@@ -22,7 +22,7 @@ export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [regionName, setRegionName] = useState<string>(''); // 나중에 필요없어지면 지우기
-  const [dust, setDust] = useState<string>('');
+  const [dust, setDust] = useState<string | null | undefined>(null);
 
   const { forecast, loadForecast } = useForecastStore();
   console.log('받아온 정보: ', title, lat, lng);

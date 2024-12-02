@@ -1,3 +1,7 @@
+interface DustItem {
+  khaiValue: string;
+}
+
 export const fetchDustGrade = async (region: string) => {
   const url = `${import.meta.env.VITE_DUST_BASE_URL}?serviceKey=${import.meta.env.VITE_API_KEY}&sidoName=${encodeURIComponent(region)}&returnType=json&numOfRows=100&pageNo=1&ver=1.3`;
 
@@ -9,7 +13,7 @@ export const fetchDustGrade = async (region: string) => {
     }
 
     const data = await response.json(); // 응답을 JSON 형식으로 변환
-    const items = data?.response?.body?.items;
+    const items: DustItem[] = data?.response?.body?.items;
 
     if (!items || items.length === 0) {
       console.error('아이템 없음');
@@ -21,7 +25,8 @@ export const fetchDustGrade = async (region: string) => {
       .filter((value) => !isNaN(value));
 
     const average =
-      khaiValues.reduce((acc, val) => acc + val, 0) / khaiValues.length;
+      khaiValues.reduce((acc: number, val: number) => acc + val, 0) /
+      khaiValues.length;
     console.log(average);
 
     if (average <= 50) return '좋음';
