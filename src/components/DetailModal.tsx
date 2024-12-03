@@ -7,7 +7,6 @@ import {
   ModalProps
 } from './SuggestionModal.tsx';
 import Close from '@assets/images/close-button.svg';
-import Good from '@assets/images/dust/good.png';
 import styled from 'styled-components';
 import { HourWeather } from '@components/HourWeather.tsx';
 import { useForecastStore } from '../stores/forecastStore.ts';
@@ -62,29 +61,20 @@ export const DetailModal = ({ onClose }: ModalProps) => {
     <ModalBackground onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <ModalHeaderContainer>
-          <HeaderTitle>오늘의 상세 날씨</HeaderTitle>
+          <HeaderTitle>오늘의 시간별 예보</HeaderTitle>
           <CloseBtn src={Close} onClick={onClose} />
         </ModalHeaderContainer>
         <ModalBodyContainer>
-          <WeatherContainer>
-            <SubTitle>시간별 예보</SubTitle>
-            <DetailContainer>
-              {hoursWeather.map((hour, index) => (
-                <HourWeather
-                  key={index}
-                  time={hour.time}
-                  temperature={hour.temperature}
-                  skyIcon={hour.skyIcon}
-                />
-              ))}
-            </DetailContainer>
-          </WeatherContainer>
-          <AirContainer>
-            <SubTitle>통합 대기</SubTitle>
-            <DustContainer>
-              <DustIcon src={Good} />
-            </DustContainer>
-          </AirContainer>
+          <DetailContainer>
+            {hoursWeather.map((hour, index) => (
+              <HourWeather
+                key={index}
+                time={hour.time}
+                temperature={hour.temperature}
+                skyIcon={hour.skyIcon}
+              />
+            ))}
+          </DetailContainer>
         </ModalBodyContainer>
       </ModalContainer>
     </ModalBackground>
@@ -95,32 +85,8 @@ const ModalBodyContainer = styled.div`
   display: flex;
   width: 100%;
   height: 258px;
+  padding: 10px 0 10px 0;
   //background: lightsalmon;
-`;
-
-const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  //background: aquamarine;
-`;
-
-const WeatherContainer = styled(SubContainer)`
-  width: 60%;
-  //background: burlywood;
-`;
-
-const AirContainer = styled(SubContainer)`
-  // background: greenyellow;
-  width: 40%;
-`;
-
-const SubTitle = styled.h2`
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 10px;
 `;
 
 const DetailContainer = styled.div`
@@ -133,13 +99,4 @@ const DetailContainer = styled.div`
   margin-bottom: 5px;
   //background: lightpink;
   //gap: 3px;
-`;
-
-const DustContainer = styled(DetailContainer)`
-  justify-content: center;
-`;
-
-const DustIcon = styled.img`
-  width: 200px;
-  /* margin-top: -10px; */
 `;

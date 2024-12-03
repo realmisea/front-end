@@ -105,7 +105,7 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  width: 694px;
+  width: 640px;
   height: 333px;
   background: white;
   border: 3px solid ${({ theme }) => theme.colors.black};
