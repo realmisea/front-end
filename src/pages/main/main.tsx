@@ -265,38 +265,50 @@ export const MainPage = () => {
 };
 
 const MainContainer = styled.div`
-  width: 1280px;
-  height: 832px;
+  width: 100%;
+  max-width: 1440px;
+  height: 100vh;
   background: ${({ theme }) => theme.colors.yellow};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -3vh;
 `;
 
 const Title = styled.h1`
-  font-size: 96px;
+  font-size: 5rem;
   color: ${({ theme }) => theme.colors.white};
   font-family: 'Noto Serif', serif;
   letter-spacing: -5px;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 4rem;
+  }
 `;
 
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 52px;
-  gap: 40px;
+  width: 90%;
+  max-width: 640px;
+  margin-top: 3vh;
+  gap: 4vh;
 `;
 
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  width: 640px;
+  width: 100%;
   height: 88px;
   border: 3px solid ${({ theme }) => theme.colors.gray};
   background: white;
+
+  @media (max-width: 768px) {
+    height: 8vh;
+  }
 `;
 
 const ResultsContainer = styled.div`
@@ -308,10 +320,14 @@ const ResultsContainer = styled.div`
   max-height: 200px;
   overflow-y: auto;
   z-index: 10;
+
+  @media (max-width: 768px) {
+    max-height: 150px;
+  }
 `;
 
 const ResultItem = styled.div`
-  padding: 10px;
+  padding: 1vh;
   cursor: pointer;
   &:hover {
     background: #f1f1f1;
@@ -319,8 +335,9 @@ const ResultItem = styled.div`
 `;
 
 const LabelText = styled.span`
-  font-size: 24px;
-  padding: 0 15px 0 68px;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  margin-left: 3vw;
 `;
 
 const Input = styled.input`
@@ -328,7 +345,10 @@ const Input = styled.input`
   height: 100%;
   background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 1.5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 3vw 0 3vw;
   &:focus {
     outline: none;
   }
@@ -338,11 +358,18 @@ const SearchButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  margin: 0 19px 0 30px;
+  margin-right: 3vw;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const CloudImg = styled.img`
-  margin-bottom: -190px; // 여기 마진이 왜생기지?
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 1440px;
 `;
 
 const HistoryContainer = styled.div`
@@ -354,11 +381,15 @@ const HistoryContainer = styled.div`
   max-height: 150px;
   overflow-y: auto;
   z-index: 9;
-  border: 1px solid #ccc; /* 테두리 추가 */
+  border: 1px solid #ccc;
+
+  @media (max-width: 768px) {
+    max-height: 100px;
+  }
 `;
 
 const HistoryItem = styled.div`
-  padding: 10px;
+  padding: 1vh;
   cursor: pointer;
   &:hover {
     background: #e6e6e6;
