@@ -49,20 +49,43 @@ const MapContainer = styled.div`
   align-items: center;
   gap: 50px;
   margin-top: 40px;
+  background: antiquewhite;
+
+  //@media (max-width: 1024px) {
+  //  flex-direction: column;
+  //  margin-top: 30px;
+  //  gap: 30px;
+  //}
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+  }
 `;
 
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 37px;
-  //background: aqua;
+  background: aqua;
+
+  @media (max-width: 768px) {
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const InputContainer = styled.div`
   display: flex;
   gap: 9px;
-  //background: burlywood;
+  background: burlywood;
   margin-left: 13px;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
 `;
 
 const MarkContainer = styled.div`
@@ -70,12 +93,20 @@ const MarkContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  //background: red;
+  background: pink;
+
+  @media (max-width: 768px) {
+    gap: 2px;
+  }
 `;
 
 const PlaceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 56px;
-  //background: forestgreen;
+  background: forestgreen;
+
+  @media (max-width: 768px) {
+    gap: 20px;
+  }
 `;
