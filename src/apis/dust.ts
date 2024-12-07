@@ -27,7 +27,6 @@ export const fetchDustGrade = async (region: string) => {
     const average =
       khaiValues.reduce((acc: number, val: number) => acc + val, 0) /
       khaiValues.length;
-    console.log(average);
 
     if (average <= 50) return '좋음';
     if (average <= 100) return '보통';

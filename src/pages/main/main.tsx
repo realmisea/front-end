@@ -71,7 +71,6 @@ export const MainPage = () => {
     updateStartHistory(startInput);
     try {
       const results = await searchPlace(startInput);
-      console.log('출발지 검색 결과: ', results);
       setStartResults(results);
     } catch (error) {
       console.error(error);
@@ -84,7 +83,6 @@ export const MainPage = () => {
     updateEndHistory(endInput);
     try {
       const results = await searchPlace(endInput);
-      console.log('도착지 검색 결과: ', results);
       setEndResults(results);
     } catch (error) {
       console.error(error);

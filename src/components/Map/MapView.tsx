@@ -24,19 +24,12 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
   const isMapLoaded = useKakaoLoader();
 
-  useEffect(() => {
-    if (isMapLoaded) {
-      console.log('카카오맵 로드');
-    }
-  }, [isMapLoaded]);
-
   const location = useLocation();
   const { start, end } = location.state;
 
   const handleMapCreate = (map: kakao.maps.Map) => {
     mapRef.current = map;
     setIsMapReady(true);
-    console.log('지도 생성시 mapRef 업데이트 !!!!!!');
   };
 
   useEffect(() => {
@@ -47,7 +40,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
         const endPoint = { latitude: end.lat, longitude: end.lng };
 
         const data = await createRoute(startPoint, endPoint);
-        console.log('루트 응답:', data);
 
         if (!data.intermediatePoints || data.intermediatePoints.length === 0) {
           console.warn('데이터가없단다.....');
@@ -77,14 +69,8 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
   }, [start, end]);
 
   useEffect(() => {
-    console.log('isMapLoaded:', isMapLoaded);
-    console.log('내가제일필요한 mapRef.current:', mapRef.current);
-    console.log('routeCoords:', routeCoords);
-    console.log('isMapReady', isMapReady);
-
     if (isMapLoaded && isMapReady && routeCoords.length > 0) {
       const bounds = new kakao.maps.LatLngBounds();
-      console.log('bounds1: ', bounds);
 
       // 모든 좌표를 bounds에 추가
       routeCoords.forEach((coord) => {
@@ -93,10 +79,10 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 
       // 지도 영역을 경로 전체가 보이도록 설정
       mapRef.current?.setBounds(bounds);
-      console.log('경로 다 보이니?', bounds);
-    } else {
-      console.error('실패다');
     }
+    // else {
+    //   console.error('실패다');
+    // }
   }, [isMapLoaded, isMapReady, routeCoords]);
 
   return (
@@ -111,7 +97,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
             draggable={true}
             onCreate={handleMapCreate}
           >
-            {/* 경로 표시 */}
             {routeCoords.length > 1 && (
               <Polyline
                 path={routeCoords}
@@ -121,8 +106,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
                 strokeStyle="solid"
               />
             )}
-
-            {/* 마커 */}
             {routeCoords.map((coord, index) => (
               <CustomOverlayMap
                 key={index}
@@ -147,7 +130,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 const MapContainer = styled.div`
   width: 55vw;
   height: 60vh;
-  background: darkslateblue;
 
   @media (max-width: 768px) {
     width: 95%;

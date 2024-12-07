@@ -97,7 +97,7 @@ export const ModalBackground = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
+  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,9 +164,10 @@ export const CloseBtn = styled.img`
 
 const ModalBodyContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
-  background: lightskyblue;
   width: 100%;
   height: 258px;
 `;
@@ -175,7 +176,6 @@ const SuggestionContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  background: lightsalmon;
 
   @media (max-width: 768px) {
     gap: 12px;

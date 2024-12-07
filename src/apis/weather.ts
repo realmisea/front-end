@@ -19,8 +19,6 @@ const getPreviousHour = (): { baseDate: string; baseTime: string } => {
     now.getDate().toString().padStart(2, '0');
 
   const baseTime = now.getHours().toString().padStart(2, '0') + '30';
-  console.log('baseDate:', baseDate);
-  console.log('baseTime:', baseTime);
 
   return { baseDate, baseTime }; // 날짜와 시간을 반환
 };
@@ -49,7 +47,6 @@ export const fetchWeatherData = async (nx: number, ny: number) => {
       const data = await response.json();
 
       if (!data.response?.body?.items?.item) {
-        console.error('날씨 데이터를 찾을 수 없습니다:', data);
         throw new Error('API 응답 데이터가 올바르지 않습니다.');
       }
       const filteredData = data.response.body.items.item.filter((item: Item) =>

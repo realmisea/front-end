@@ -21,40 +21,31 @@ export const PointWeather = ({ title, lat, lng }: RouteCoord) => {
   const [isSuggestOpened, setIsSuggestOpened] = useState(false);
   const [isDetailOpened, setIsDetailOpened] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [regionName, setRegionName] = useState<string>(''); // 나중에 필요없어지면 지우기
   const [dust, setDust] = useState<string | null | undefined>(null);
 
   const { forecast, loadForecast } = useForecastStore();
-  console.log('받아온 정보: ', title, lat, lng);
 
   useEffect(() => {
     const fetchData = async () => {
       if (lat && lng) {
-        setIsLoading(true); // 로딩 상태 시작
+        setIsLoading(true);
         try {
           await loadForecast(lat, lng);
 
           const region = await getRegionName(lat, lng);
           const processedRegion = processRegionName(region);
-          setRegionName(processedRegion);
 
           const dustGrade = await fetchDustGrade(processedRegion);
           setDust(dustGrade);
-
-          console.log('지역명:', processedRegion);
-          console.log('대기질 등급:', dustGrade);
         } catch (error) {
-          console.error('데이터 로드 실패:', error);
+          console.error(error);
         } finally {
           setIsLoading(false);
         }
       }
     };
-
     fetchData();
   }, [lat, lng, loadForecast]);
-  console.log(regionName);
-  console.log(dust);
 
   const handleSuggestClick = () => {
     setIsSuggestOpened((prev) => !prev);
@@ -180,9 +171,7 @@ const WeatherBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  //height: 150px;
   gap: 30px;
-  background: cornflowerblue;
 `;
 
 const WeatherImg = styled.img`
