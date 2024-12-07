@@ -180,9 +180,7 @@ const WeatherBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  //height: 150px;
   gap: 30px;
-  background: cornflowerblue;
 `;
 
 const WeatherImg = styled.img`

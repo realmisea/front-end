@@ -147,7 +147,6 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 const MapContainer = styled.div`
   width: 55vw;
   height: 60vh;
-  background: darkslateblue;
 
   @media (max-width: 768px) {
     width: 95%;

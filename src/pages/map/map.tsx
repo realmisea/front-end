@@ -49,13 +49,6 @@ const MapContainer = styled.div`
   align-items: center;
   gap: 50px;
   margin-top: 40px;
-  background: antiquewhite;
-
-  //@media (max-width: 1024px) {
-  //  flex-direction: column;
-  //  margin-top: 30px;
-  //  gap: 30px;
-  //}
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -68,7 +61,6 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 37px;
-  background: aqua;
 
   @media (max-width: 768px) {
     gap: 20px;
@@ -80,7 +72,6 @@ const InfoContainer = styled.div`
 const InputContainer = styled.div`
   display: flex;
   gap: 9px;
-  background: burlywood;
   margin-left: 13px;
 
   @media (max-width: 768px) {
@@ -93,7 +84,6 @@ const MarkContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  background: pink;
 
   @media (max-width: 768px) {
     gap: 2px;
@@ -104,7 +94,6 @@ const PlaceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 56px;
-  background: forestgreen;
 
   @media (max-width: 768px) {
     gap: 20px;
