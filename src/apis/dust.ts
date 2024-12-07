@@ -12,12 +12,12 @@ export const fetchDustGrade = async (region: string) => {
       throw new Error(`HTTP error: ${response.status}`);
     }
 
-    const data = await response.json(); // 응답을 JSON 형식으로 변환
+    const data = await response.json();
     const items: DustItem[] = data?.response?.body?.items;
 
     if (!items || items.length === 0) {
       console.error('아이템 없음');
-      return null;
+      return '측정 불가';
     }
 
     const khaiValues = items
