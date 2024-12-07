@@ -145,8 +145,14 @@ export const MapView = ({ onMarkerClick }: MapViewProps) => {
 };
 
 const MapContainer = styled.div`
-  width: 700px;
-  height: 500px;
+  width: 55vw;
+  height: 60vh;
+  background: darkslateblue;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    height: 300px;
+  }
 `;
 
 const CustomMarkerContainer = styled.div`
@@ -163,4 +169,9 @@ const CustomMarkerContainer = styled.div`
   font-size: 14px;
   font-weight: bold;
   color: black;
+
+  @media (max-width: 768px) {
+    font-size: 11px;
+    padding: 4px;
+  }
 `;

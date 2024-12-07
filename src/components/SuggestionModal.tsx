@@ -114,6 +114,15 @@ export const ModalContainer = styled.div`
   //justify-content: center;
   align-items: center;
   z-index: 1000;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: 290px;
+  }
+
+  @media (max-width: 450px) {
+    height: 250px;
+  }
 `;
 
 export const ModalHeaderContainer = styled.div`
@@ -129,6 +138,14 @@ export const ModalHeaderContainer = styled.div`
 export const HeaderTitle = styled.h1`
   font-size: 40px;
   font-weight: 400;
+
+  @media (max-width: 768px) {
+    font-size: 35px;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 30px;
+  }
 `;
 
 export const CloseBtn = styled.img`
@@ -136,15 +153,20 @@ export const CloseBtn = styled.img`
   cursor: pointer;
   top: 3px;
   right: 3px;
+  width: 38px;
+
+  @media (max-width: 768px) {
+    top: 1px;
+    right: 1px;
+    width: 33px;
+  }
 `;
 
-export const ModalBodyContainer = styled.div`
+const ModalBodyContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 20px;
   justify-content: center;
   align-items: center;
-  //background: lightskyblue;
+  background: lightskyblue;
   width: 100%;
   height: 258px;
 `;
@@ -153,13 +175,29 @@ const SuggestionContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  //background: lightsalmon;
+  background: lightsalmon;
+
+  @media (max-width: 768px) {
+    gap: 12px;
+  }
 `;
 
 const SuggestImg = styled.img`
   height: 50px;
+
+  @media (max-width: 768px) {
+    height: 35px;
+  }
 `;
 
 const SuggestMessage = styled.p`
   font-size: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 20px;
+  }
 `;

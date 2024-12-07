@@ -139,6 +139,17 @@ const Container = styled.div`
   gap: 10px;
   margin-left: 25px;
   white-space: nowrap;
+
+  @media (max-width: 768px) {
+    width: 380px;
+    height: 300px;
+    margin-left: 0;
+    gap: 5px;
+  }
+
+  @media (max-width: 400px) {
+    width: 350px;
+  }
 `;
 
 export const LoadingMessage = styled.p`
@@ -158,6 +169,10 @@ const PlaceName = styled.h1`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+
+  @media (max-width: 768px) {
+    font-size: 32px;
+  }
 `;
 
 const WeatherBox = styled.div`
@@ -165,13 +180,19 @@ const WeatherBox = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 150px;
+  //height: 150px;
   gap: 30px;
+  background: cornflowerblue;
 `;
 
 const WeatherImg = styled.img`
   width: 136px;
   height: 131px;
+
+  @media (max-width: 768px) {
+    width: 110px;
+    height: auto;
+  }
 `;
 
 const WeatherInfo = styled.div`
@@ -185,6 +206,10 @@ const WeatherInfo = styled.div`
 const WeatherText = styled.p`
   font-size: 32px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 25px;
+  }
 `;
 
 const BtnBox = styled.div`
@@ -196,11 +221,20 @@ const BtnBox = styled.div`
   height: 107px;
   border-radius: 30px;
   gap: 40px;
+
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 90px;
+  }
 `;
 
 const Btn = styled.img`
   width: 110px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 90px;
+  }
 `;
 
 const SuggestBtn = styled(Btn)``;

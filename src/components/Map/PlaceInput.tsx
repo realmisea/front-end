@@ -21,6 +21,10 @@ const InputContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.yellow};
   border-radius: 20px;
   white-space: nowrap;
+
+  @media (max-width: 450px) {
+    width: 85vw;
+  }
 `;
 
 const InputText = styled.p`
@@ -29,4 +33,9 @@ const InputText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+
+  @media (max-width: 450px) {
+    font-size: 20px;
+    margin-left: 22px;
+  }
 `;
