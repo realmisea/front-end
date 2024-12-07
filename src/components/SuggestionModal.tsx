@@ -111,9 +111,9 @@ export const ModalContainer = styled.div`
   border: 3px solid ${({ theme }) => theme.colors.black};
   display: flex;
   flex-direction: column;
-  //justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     width: 90%;
