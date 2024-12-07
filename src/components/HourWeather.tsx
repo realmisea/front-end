@@ -29,12 +29,21 @@ const WeatherContainer = styled.div`
 const WeatherIcon = styled.img`
   width: 30px;
   height: 30px;
+
+  @media (max-width: 450px) {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const Line = styled.div`
   width: 200px;
   height: 1px;
   background: black;
+
+  @media (max-width: 450px) {
+    width: 120px;
+  }
 `;
 
 const TempBox = styled.div<TempBoxProps>`
