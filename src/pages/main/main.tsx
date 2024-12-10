@@ -178,86 +178,88 @@ export const MainPage = () => {
     <>
       <MainContainer>
         <KakaoMapLoader onLoad={handleMapLoad} />
-        <Title>Wayther</Title>
-        <InputContainer>
-          <InputWrapper
-            onMouseEnter={handleStartMouseEnter}
-            onMouseLeave={handleStartMouseLeave}
-          >
-            <LabelText>출발지: </LabelText>
-            <Input
-              value={startInput}
-              onChange={(e) => setStartInput(e.target.value)}
-              onKeyDown={(e) => handleKeyDown(e, true)}
-            />
-            <SearchButton onClick={handleStartSearch}>
-              <img src={SearchIcon} alt="검색" />
-            </SearchButton>
-            {startResults && (
-              <ResultsContainer>
-                {startResults.map((place) => (
-                  <ResultItem
-                    key={place.id}
-                    onClick={() => handleStartSelect(place)}
-                  >
-                    {place.place_name}
-                  </ResultItem>
-                ))}
-              </ResultsContainer>
-            )}
-            {showStartHistory && startHistory.length > 0 && !startInput && (
-              <HistoryContainer>
-                {startHistory.map((query, index) => (
-                  <HistoryItem
-                    key={index}
-                    onClick={() => handleStartHistoryClick(query)}
-                  >
-                    {query}
-                  </HistoryItem>
-                ))}
-              </HistoryContainer>
-            )}
-          </InputWrapper>
+        <Wrapper>
+          <Title>Wayther</Title>
+          <InputContainer>
+            <InputWrapper
+              onMouseEnter={handleStartMouseEnter}
+              onMouseLeave={handleStartMouseLeave}
+            >
+              <LabelText>출발지: </LabelText>
+              <Input
+                value={startInput}
+                onChange={(e) => setStartInput(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e, true)}
+              />
+              <SearchButton onClick={handleStartSearch}>
+                <img src={SearchIcon} alt="검색" />
+              </SearchButton>
+              {startResults && (
+                <ResultsContainer>
+                  {startResults.map((place) => (
+                    <ResultItem
+                      key={place.id}
+                      onClick={() => handleStartSelect(place)}
+                    >
+                      {place.place_name}
+                    </ResultItem>
+                  ))}
+                </ResultsContainer>
+              )}
+              {showStartHistory && startHistory.length > 0 && !startInput && (
+                <HistoryContainer>
+                  {startHistory.map((query, index) => (
+                    <HistoryItem
+                      key={index}
+                      onClick={() => handleStartHistoryClick(query)}
+                    >
+                      {query}
+                    </HistoryItem>
+                  ))}
+                </HistoryContainer>
+              )}
+            </InputWrapper>
 
-          <InputWrapper
-            onMouseEnter={handleEndMouseEnter}
-            onMouseLeave={handleEndMouseLeave}
-          >
-            <LabelText>도착지: </LabelText>
-            <Input
-              value={endInput}
-              onChange={(e) => setEndInput(e.target.value)}
-              onKeyDown={(e) => handleKeyDown(e, false)}
-            />
-            <SearchButton onClick={handleEndSearch}>
-              <img src={SearchIcon} alt="검색" />
-            </SearchButton>
-            {endResults && (
-              <ResultsContainer>
-                {endResults.map((place) => (
-                  <ResultItem
-                    key={place.id}
-                    onClick={() => handleEndSelect(place)}
-                  >
-                    {place.place_name}
-                  </ResultItem>
-                ))}
-              </ResultsContainer>
-            )}
-            {showEndHistory && endHistory.length > 0 && !endInput && (
-              <HistoryContainer>
-                {endHistory.map((query, index) => (
-                  <HistoryItem
-                    key={index}
-                    onClick={() => handleEndHistoryClick(query)}
-                  >
-                    {query}
-                  </HistoryItem>
-                ))}
-              </HistoryContainer>
-            )}
-          </InputWrapper>
-        </InputContainer>
+            <InputWrapper
+              onMouseEnter={handleEndMouseEnter}
+              onMouseLeave={handleEndMouseLeave}
+            >
+              <LabelText>도착지: </LabelText>
+              <Input
+                value={endInput}
+                onChange={(e) => setEndInput(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e, false)}
+              />
+              <SearchButton onClick={handleEndSearch}>
+                <img src={SearchIcon} alt="검색" />
+              </SearchButton>
+              {endResults && (
+                <ResultsContainer>
+                  {endResults.map((place) => (
+                    <ResultItem
+                      key={place.id}
+                      onClick={() => handleEndSelect(place)}
+                    >
+                      {place.place_name}
+                    </ResultItem>
+                  ))}
+                </ResultsContainer>
+              )}
+              {showEndHistory && endHistory.length > 0 && !endInput && (
+                <HistoryContainer>
+                  {endHistory.map((query, index) => (
+                    <HistoryItem
+                      key={index}
+                      onClick={() => handleEndHistoryClick(query)}
+                    >
+                      {query}
+                    </HistoryItem>
+                  ))}
+                </HistoryContainer>
+              )}
+            </InputWrapper>
+          </InputContainer>
+        </Wrapper>
       </MainContainer>
       <CloudImg src={Cloud} alt="구름" />
     </>
@@ -273,7 +275,18 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  //margin-top: -5vh;
+`;
+
+const Wrapper = styled.div`
   margin-top: -5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  height: 100vh;
 `;
 
 const Title = styled.h1`
@@ -370,8 +383,7 @@ const CloudImg = styled.img`
   bottom: 0;
   width: 100%;
   max-width: 1440px;
-  margin-bottom: -5vh;
-  background: ${({ theme }) => theme.colors.yellow};
+  margin-bottom: -8vh;
 
   @media (max-width: 600px) {
     margin-bottom: -5vw;
