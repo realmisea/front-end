@@ -261,7 +261,7 @@ export const MainPage = () => {
           </InputContainer>
         </Wrapper>
       </MainContainer>
-      <CloudImg src={Cloud} alt="구름" />
+      {/*<CloudImg src={Cloud} alt="구름" />*/}
     </>
   );
 };
@@ -279,7 +279,7 @@ const MainContainer = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-top: -5vh;
+  margin-top: -8vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
