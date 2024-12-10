@@ -369,6 +369,11 @@ const CloudImg = styled.img`
   bottom: 0;
   width: 100%;
   max-width: 1440px;
+  margin-bottom: -5vh;
+
+  @media (max-width: 600px) {
+    margin-bottom: -5vw;
+  }
 `;
 
 const HistoryContainer = styled.div`
