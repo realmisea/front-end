@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Cloud from '@assets/images/main-cloud.svg';
+// import Cloud from '@assets/images/main-cloud.svg';
 import SearchIcon from '@assets/images/search.svg';
 import { KakaoMapLoader } from '@utils/KakaoMapLoader.tsx';
 import { useEffect, useState } from 'react';
@@ -377,18 +377,18 @@ const SearchButton = styled.button`
     display: none;
   }
 `;
-
-const CloudImg = styled.img`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  max-width: 1440px;
-  margin-bottom: -8vh;
-
-  @media (max-width: 600px) {
-    margin-bottom: -5vw;
-  }
-`;
+//
+// const CloudImg = styled.img`
+//   position: absolute;
+//   bottom: 0;
+//   width: 100%;
+//   max-width: 1440px;
+//   margin-bottom: -8vh;
+//
+//   @media (max-width: 600px) {
+//     margin-bottom: -5vw;
+//   }
+// `;
 
 const HistoryContainer = styled.div`
   position: absolute;
