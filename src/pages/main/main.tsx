@@ -273,6 +273,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -5vh;
 `;
 
 const Title = styled.h1`
@@ -370,6 +371,7 @@ const CloudImg = styled.img`
   width: 100%;
   max-width: 1440px;
   margin-bottom: -5vh;
+  background: ${({ theme }) => theme.colors.yellow};
 
   @media (max-width: 600px) {
     margin-bottom: -5vw;
@@ -384,7 +386,7 @@ const HistoryContainer = styled.div`
   background: #f8f8f8;
   max-height: 150px;
   overflow-y: auto;
-  z-index: 9;
+  z-index: 1000;
   border: 1px solid #ccc;
 
   @media (max-width: 768px) {
